@@ -1,536 +1,279 @@
 <?php
 /**
- * Event Service
+ * Event Schedule
  *
- * @package   Molajo
- * @license   http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright 2013 Amy Stephen. All rights reserved.
+ * @package    Molajo
+ * @license    http://www.opensource.org/licenses/mit-license.html MIT License
+ * @copyright  2013 Amy Stephen. All rights reserved.
  */
 namespace Molajo\Event;
 
-use Molajo\Event\Exception\EventException;
-
-use Molajo\Event\EventInterface;
-
-defined('MOLAJO') or die;
+use CommonApi\Event\EventInterface;
+use CommonApi\Controller\UrlInterface;
+use CommonApi\Controller\DateInterface;
+use CommonApi\Language\LanguageInterface;
+use CommonApi\Model\FieldhandlerInterface;
+use CommonApi\Authorisation\AuthorisationInterface;
+use Exception\Event\EventException;
 
 /**
- * Event Service
+ * Event Schedule
  *
- * List All Events:
- *      $event_array = Services::Events()->get('Events');
- *
- * List All Plugins:
- *      $plugin_array = Services::Events()->get('Plugins');
- *
- * List Plugins for a Specific Event:
- *      $plugin_array = Services::Events()->get('Plugins', 'onBeforeRead');
- *
- * Schedule an Event:
- *      Services::Event()->scheduleEvent('onAfterDelete', $arguments, $selections);
- *
- * Override a Plugin:
- *      Copy the Plugin folder into an Extension (i.e., Plugin, Resource, View, Theme, etc.) and make changes,
- *      When that extension is in use, Molajo will locate the override and register it with this command:
- *
- *      Services::Event()->registerPlugin(VENDOR_MOLAJO_FOLDER . '/' . 'Plugin', 'Molajo\\Plugin\\');
- *      Services::Event()->registerPlugin('Extension', 'Extension\\Resource\\Articles\\AliasPlugin');
- *
- * @author    Amy Stephen
- * @license   http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright 2013 Amy Stephen. All rights reserved.
- * @since     1.0
+ * @author     Amy Stephen
+ * @license    http://www.opensource.org/licenses/mit-license.html MIT License
+ * @copyright  2013 Amy Stephen. All rights reserved.
+ * @since      1.0
  */
 class Event implements EventInterface
 {
     /**
-     * Indicator Event Service has been activated
+     * Event Name
+     *
+     * @var    string
+     * @since  1.0
+     */
+    protected $event_name = null;
+
+    /**
+     * Data
      *
      * @var    array
      * @since  1.0
      */
-    protected $on;
+    protected $data = array();
 
     /**
-     * FrontController Instance
+     * Parameters
      *
      * @var    object
      * @since  1.0
      */
-    protected $frontcontroller_instance;
+    protected $parameters = null;
 
     /**
-     * Current Date
+     * Page Rendered Output
+     *
+     * @var    string
+     * @since  1.0
+     */
+    protected $rendered_page = null;
+
+    /**
+     * View Rendered Output
+     *
+     * @var    string
+     * @since  1.0
+     */
+    protected $rendered_view = null;
+
+    /**
+     * Resource
      *
      * @var    object
      * @since  1.0
      */
-    protected $current_date;
+    protected $resources = null;
 
     /**
-     * Events discovered within Plugins
+     * Date Controller
      *
-     * @var    array
+     * @var    object  CommonApi\Controller\DateInterface;
      * @since  1.0
      */
-    protected $event_array = array();
+    protected $date_controller = null;
 
     /**
-     * Plugins with Events
+     * Url
      *
-     * @var    array
+     * @var    object  CommonApi\Controller\UrlInterface;
      * @since  1.0
      */
-    protected $plugin_array = array();
+    protected $url_controller = null;
 
     /**
-     * Recordset for each Event/Plugin combination
+     * Fieldhandler
      *
-     * @var    array
+     * @var    object  CommonApi\Model\FieldhandlerInterface
      * @since  1.0
      */
-    protected $event_plugin_array = array();
+    protected $fieldhandler = null;
 
     /**
-     * List of named Plugin Properties
+     * Model Registry
      *
      * @var    object
      * @since  1.0
      */
-    protected $property_array = array(
-        'current_date',
-        'on',
-        'frontcontroller_instance',
-        'events',
-        'event_array',
-        'plugins',
-        'plugin_array',
-        'event_plugin_array'
-    );
+    protected $model_registry = null;
 
     /**
-     * List of Plugin Property Array
-     *
-     * Must match Plugin class $property_array Property
+     * Query
      *
      * @var    object
      * @since  1.0
      */
-    protected $plugin_property_array = array(
-        'current_date',
-        'model',
-        'model_registry',
-        'model_registry_name',
-        'parameters',
-        'parameter_property_array',
-        'query_results',
-        'row',
-        'rendered_output',
-        'view_path',
-        'view_path_url',
-        'plugins',
-        'class_array',
-        'include_parse_sequence',
-        'include_parse_exclude_until_final'
-    );
+    protected $query = null;
 
     /**
-     * get property
+     * Language Controller
      *
-     * @param string $key
-     * @param string $default
+     * @var    object  CommonApi\Language\LanguageInterface
+     * @since  1.0
+     */
+    protected $language_controller;
+
+    /**
+     * Authorisation Controller
      *
-     * @return mixed
+     * @var    object  CommonApi\Authorisation\AuthorisationInterface
+     * @since  1.0
+     */
+    protected $authorisation_controller;
+
+    /**
+     * Constructor
+     *
+     * @param  null                   $event_name
+     * @param  null                   $resources
+     * @param  FieldhandlerInterface  $fieldhandler
+     * @param  DateInterface          $date_controller
+     * @param  UrlInterface           $url_controller
+     * @param  LanguageInterface      $language_controller
+     * @param  AuthorisationInterface $authorisation_controller
+     * @param  null|mixed             $runtime_data
+     * @param  null                   $parameters
+     * @param  null                   $query
+     * @param  null                   $model_registry
+     * @param  null                   $query_results
+     * @param  null                   $rendered_view
+     * @param  null                   $rendered_page
+     *
      * @since   1.0
-     * @throws  OutOfRangeException
      */
-    public function get($key, $default = '')
-    {
-        $key = strtolower($key);
-
-        if ($key == 'events') {
-            $key = 'event_array';
-        }
-
-        if ($key == 'plugins') {
-            $plugins = array();
-            foreach ($this->event_plugin_array as $x) {
-                if ($x->event == $default || $default == '') {
-                    $plugin           = $this->plugin_array[$x->plugin];
-                    $plugins[$plugin] = $x->plugin;
-                }
-            }
-
-            return $plugins;
-        }
-
-        if (in_array($key, $this->property_array)) {
-        } else {
-            throw new OutOfRangeException
-            ('Event Service: attempting to set value for unknown key: ' . $key);
-        }
-
-        if (isset($this->$key)) {
-        } else {
-            $this->$key = $default;
-        }
-
-        return $this->$key;
+    public function __construct(
+        $event_name = null,
+        $resources = null,
+        FieldhandlerInterface $fieldhandler = null,
+        DateInterface $date_controller = null,
+        UrlInterface $url_controller = null,
+        LanguageInterface $language_controller = null,
+        AuthorisationInterface $authorisation_controller = null,
+        $runtime_data = null,
+        $parameters = null,
+        $query = null,
+        $model_registry = null,
+        $query_results = null,
+        $rendered_view = null,
+        $rendered_page = null
+    ) {
+        $this->event_name               = $event_name;
+        $this->resources                = $resources;
+        $this->fieldhandler             = $fieldhandler;
+        $this->date_controller          = $date_controller;
+        $this->url_controller           = $url_controller;
+        $this->language_controller      = $language_controller;
+        $this->authorisation_controller = $authorisation_controller;
+        $this->runtime_data             = $runtime_data;
+        $this->parameters               = $parameters;
+        $this->query                    = $query;
+        $this->model_registry           = $model_registry;
+        $this->query_results            = $query_results;
+        $this->rendered_view            = $rendered_view;
+        $this->rendered_page            = $rendered_page;
     }
 
     /**
-     * set property
+     * Get a property
      *
-     * @param string $key
-     * @param string $value
+     * @param    $key
      *
-     * @return mixed
-     * @since   1.0
-     * @throws  OutOfRangeException
+     * @return   array|null|object|string
+     * @since    1.0
+     * @throws   \Exception\Event\EventException
+     */
+    public function get($key)
+    {
+        $key = strtolower($key);
+
+        if ($key == 'event_name') {
+            return $this->event_name;
+        } elseif ($key == 'resources') {
+            return $this->resources;
+        } elseif ($key == 'fieldhandler') {
+            return $this->fieldhandler;
+        } elseif ($key == 'date_controller') {
+            return $this->date_controller;
+        } elseif ($key == 'url_controller') {
+            return $this->url_controller;
+        } elseif ($key == 'language_controller') {
+            return $this->language_controller;
+        } elseif ($key == 'authorisation_controller') {
+            return $this->authorisation_controller;
+        } elseif ($key == 'runtime_data') {
+            return $this->runtime_data;
+        } elseif ($key == 'parameters') {
+            return $this->parameters;
+        } elseif ($key == 'query') {
+            return $this->query;
+        } elseif ($key == 'model_registry') {
+            return $this->model_registry;
+        } elseif ($key == 'query_results') {
+            return $this->query_results;
+        } elseif ($key == 'rendered_view') {
+            return $this->rendered_view;
+        } elseif ($key == 'rendered_page') {
+            return $this->rendered_page;
+        }
+
+        throw new EventException ('Event: Invalid Get Key: ' . $key);
+    }
+
+    /**
+     * Set a property value
+     *
+     * @param    string $key
+     * @param    mixed  $value
+     *
+     * @return   $this
+     * @since    1.0
+     * @throws   \Exception\Event\EventException
      */
     public function set($key, $value)
     {
         $key = strtolower($key);
 
-        if (in_array($key, $this->property_array)) {
+        if ($key == 'event_name') {
+            $this->event_name = $value;
+        } elseif ($key == 'resources') {
+            $this->resources = $value;
+        } elseif ($key == 'fieldhandler') {
+            $this->fieldhandler = $value;
+        } elseif ($key == 'date_controller') {
+            $this->date_controller = $value;
+        } elseif ($key == 'url_controller') {
+            $this->url_controller = $value;
+        } elseif ($key == 'language_controller') {
+            $this->language_controller = $value;
+        } elseif ($key == 'authorisation_controller') {
+            $this->authorisation_controller = $value;
+        } elseif ($key == 'runtime_data') {
+            $this->runtime_data = $value;
+        } elseif ($key == 'parameters') {
+            $this->parameters = $value;
+        } elseif ($key == 'query') {
+            $this->query = $value;
+        } elseif ($key == 'model_registry') {
+            $this->model_registry = $value;
+        } elseif ($key == 'query_results') {
+            $this->query_results = $value;
+        } elseif ($key == 'rendered_view') {
+            $this->rendered_view = $value;
+        } elseif ($key == 'rendered_page') {
+            $this->rendered_page = $value;
         } else {
-            throw new OutOfRangeException
-            ('Event Service: attempting to set value for unknown key: ' . $key);
+            throw new EventException ('Event: Invalid Set Key: ' . $key);
         }
-
-        $this->$key = $value;
-
-        return;
-    }
-
-    /**
-     * The application schedules events at various points within the system.
-     *
-     * Usage:
-     * Services::Event()->scheduleEvent('onAfterDelete', $arguments, $selections);
-     *
-     * As a result of the schedule request, the Event Service fires off plugins
-     *  meeting this criteria:
-     *
-     * - published (or archived)
-     * - registered for the scheduled event
-     * - associated with the current extension
-     * - authorised for use by the user
-     *
-     * @param string $event
-     * @param array  $arguments
-     * @param array  $selections
-     *
-     * @return boolean
-     *
-     * @since   1.0
-     */
-    public function scheduleEvent($event, $arguments = array(), $selections = array())
-    {
-        if (defined('PROFILER_ON') && PROFILER_ON === true) {
-
-            Services::Profiler()->set(
-                'message',
-                'Event Service: Initiated Scheduling of Event ' . $event,
-                'Plugins',
-                1
-            );
-
-        }
-echo ' Event Sechedule: ' . $event  . '<br />';
-        if (in_array(strtolower($event), $this->event_array) || count($this->event_plugin_array) > 0) {
-        } else {
-
-            if (defined('PROFILER_ON') && PROFILER_ON === true) {
-                Services::Profiler()->set(
-                    'message',
-                    'Event Service: ' . $event . ' has no registrations',
-                    'Plugins',
-                    1
-                );
-            }
-
-            return $arguments;
-        }
-
-        $compareSelection = array();
-
-        if (count($selections) > 0 && is_array($selections)) {
-            foreach ($selections as $s) {
-                $compareSelection[] = strtolower($s . 'Plugin');
-            }
-        }
-
-        $scheduledEventPlugins = array();
-
-        foreach ($this->event_plugin_array as $x) {
-
-            if ($x->event == strtolower($event)) {
-
-                if (count($compareSelection) == 0
-                    || in_array(strtolower($x->plugin), $compareSelection)
-                ) {
-                    $temp_row = $x;
-
-                    $temp_row->plugin_class_name = $this->plugin_array[$x->plugin];
-                    $temp_row->model_name        = $x->model_name;
-                    $temp_row->model_type        = $x->model_type;
-
-                    $scheduledEventPlugins[] = $temp_row;
-                }
-            }
-        }
-
-        if (count($scheduledEventPlugins) == 0) {
-
-            if (defined('PROFILER_ON') && PROFILER_ON === true) {
-
-                Services::Profiler()->set(
-                    'message',
-                    'Event: ' . $event . ' has no registrations',
-                    'Plugins',
-                    1
-                );
-            }
-
-            return $arguments;
-        }
-
-        foreach ($scheduledEventPlugins as $selection) {
-
-            $plugin_class_name = $selection->plugin_class_name;
-
-            if (method_exists($plugin_class_name, $event)) {
-
-                $results = $this->processPluginClass($plugin_class_name, $event, $arguments);
-
-                if ($results === false) {
-                    return false;
-                }
-
-                $arguments = $results;
-            }
-        }
-
-        if (defined('PROFILER_ON') && PROFILER_ON === true) {
-
-            Services::Profiler()->set(
-                'message',
-                'Event Service: Finished EventSchedule for Event: ' . $event,
-                'Plugins',
-                1
-            );
-
-        }
-
-        return $arguments;
-    }
-
-    /**
-     * Instantiate the Plugin Class.
-     *
-     * Establish initial property values given arguments passed in (could include changes other plugins made).
-     * Load Fields for Model Registry, if in the arguments, for Plugin use.
-     * Execute each qualified plugin, one at a time, until all have been processed.
-     * Return arguments, which could contain changed data, to the calling class.
-     *
-     * @param string $plugin_class_name includes namespace
-     * @param string $event
-     * @param array  $arguments
-     *
-     * @return array|bool
-     * @since   1.0
-     * @throws  Exception
-     * @throws  OutOfRangeException
-     */
-    protected function processPluginClass($plugin_class_name, $event, $arguments = array())
-    {
-        try {
-            $plugin = new $plugin_class_name();
-
-        } catch (Exception $e) {
-            throw new Exception('Event Service: ' . $event
-                . ' processPluginclass failure instantiating: ' . $plugin_class_name);
-        }
-
-        if (defined('PROFILER_ON') && PROFILER_ON === true) {
-
-            Services::Profiler()->set(
-                'message',
-                'Event:' . $event . ' firing Plugin: ' . $plugin_class_name,
-                'Plugins',
-                1
-            );
-        }
-
-        $plugin->set('frontcontroller_instance', $this->frontcontroller_instance);
-
-        $plugin->set('plugin_class_name', $plugin_class_name);
-
-        $plugin->set('plugin_event', $event);
-
-        $plugin->set('current_date', $this->current_date);
-
-        if (count($arguments) > 0) {
-
-            foreach ($arguments as $key => $value) {
-
-                if (in_array($key, $this->plugin_property_array)) {
-                    $plugin->set($key, $value, '');
-
-                } else {
-                    throw new OutOfRangeException('Event Service: ' . $event .
-                        ' Plugin ' . $plugin_class_name .
-                        ' attempting to set value for unknown property: ' . $key);
-                }
-            }
-        }
-
-        $plugin->initialise();
-
-        $results = $plugin->$event();
-
-        if ($results === false) {
-            // plugin will throw Exception if warranted, otherwise, a false means "don't update data"
-        } else {
-
-            if (count($arguments) > 0) {
-
-                foreach ($arguments as $key => $value) {
-
-                    if (in_array($key, $this->plugin_property_array)) {
-                        $arguments[$key] = $plugin->get($key);
-
-                    } else {
-                        throw new OutOfRangeException('Event Service: ' . $event .
-                            ' Plugin ' . $plugin_class_name .
-                            ' attempting to set value for unknown property: ' . $key);
-                    }
-                }
-            }
-        }
-
-        return $arguments;
-    }
-
-    /**
-     * Registers all Plugins in the folder
-     *
-     * Extensions can override Plugins by including a like-named folder in a Plugin directory within the extension
-     *
-     * The application will find and register overrides at the point in time the extension is used in rendering.
-     *
-     * Usage:
-     * Services::Event()->registerPlugin('ExamplePlugin', 'Molajo\\Plugin\\Example');
-     *
-     * @param string $plugin_name
-     * @param string $plugin_class_name
-     *
-     * @return bool|Event
-     * @throws  Exception
-     */
-    public function registerPlugin($plugin_name = '', $plugin_class_name = '')
-    {
-        $events = get_class_methods($plugin_class_name);
-
-        if (count($events) > 0) {
-
-            foreach ($events as $event) {
-
-                if (substr($event, 0, 2) == 'on') {
-                    $reflectionMethod = new \ReflectionMethod(new $plugin_class_name, $event);
-                    $results          = $reflectionMethod->getDeclaringClass();
-
-                    if ($results->name == $plugin_class_name) {
-                        $this->registerPluginEvent($plugin_name, $plugin_class_name, $event);
-                    }
-                }
-            }
-        }
-
-        sort($this->event_array);
-        ksort($this->plugin_array);
-        sort($this->event_plugin_array);
 
         return $this;
-    }
-
-    /**
-     * Plugins register for events. When the event is scheduled, the plugin will be executed.
-     *
-     * The last plugin to register is the one that will be invoked.
-     *
-     * Installed plugins are registered during Application startup process.
-     * Other plugins can be created and dynamically registered using this method.
-     * Plugins can be overridden by registering after the installed plugins.
-     *
-     * @param string $plugin_name
-     * @param string $plugin_class_name
-     * @param string $event
-     *
-     * @return void
-     * @since   1.0
-     */
-    protected function registerPluginEvent($plugin_name, $plugin_class_name, $event)
-    {
-        $event = strtolower($event);
-
-        // $this->plugin_array['AssetPlugin'] = 'Molajo\\Asset';
-        $this->plugin_array[$plugin_name] = $plugin_class_name;
-
-        // $this->event_array = 'onBeforeRegisterPlugins';
-        if (in_array($event, $this->event_array)) {
-        } else {
-            $this->event_array[] = $event;
-        }
-
-        $list                     = $this->event_plugin_array;
-        $this->event_plugin_array = array();
-
-        $found = false;
-        if (count($list) > 0) {
-            foreach ($list as $single) {
-                if ($event == $single->event) {
-                    if ($plugin_name == $single->plugin) {
-                        $found = true;
-                    }
-                }
-
-                $this->event_plugin_array[] = $single;
-            }
-        }
-
-        if ($found === true) {
-        } else {
-
-            $temp_row = new \stdClass();
-
-            // $this->event_plugin_array = array (
-            //      event => 'onBeforeRegisterPlugin',
-            //      plugin => 'EventPlugin',
-            //      model_name => 'Event',
-            //      model_type => 'Plugin'
-            //  )
-
-            $temp_row->event      = $event;
-            $temp_row->plugin     = $plugin_name;
-            $temp_row->model_name = strtolower(substr($plugin_name, 0, strlen($plugin_name) - strlen('Plugin')));
-            $temp_row->model_type = 'Plugin';
-
-            $this->event_plugin_array[] = $temp_row;
-        }
-
-        if (defined('PROFILER_ON') && PROFILER_ON === true) {
-            Services::Profiler()->set(
-                'message',
-                'Event Service: Plugin ' . $plugin_name
-                    . ' scheduled for Event: ' . $event
-                    . ' will execute from namespace ' . $plugin_class_name,
-                'Plugins',
-                1
-            );
-        }
-
-        return;
     }
 }
