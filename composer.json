@@ -1,6 +1,6 @@
 {
     "name": "molajo/event",
-    "type": "molajo-bundle",
+    "type": "molajo-package",
     "description": "Molajo Events: Dispatcher, Event Dispatcher, and Event for PHP applications",
     "keywords": ["Event", "Molajo", "CommonApi"],
     "homepage": "http://github.com/Molajo/Event",
