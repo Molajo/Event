@@ -1,4 +1,4 @@
-**NOT COMPLETE**
+**Alpha**
 
 =======
 Events
@@ -11,81 +11,6 @@ A certain point in time in a process that a *requester* schedules with a *dispat
   initiate registered *listeners* and return the collective results to the *dispatcher*
   which, in turn, provides the *requester* the results.
 
-### Requester
-
-A requester can be any part of the application (i.e., a Controller, a Plugin, a Template, etc.)
- which requests the scheduling of of an event with dispatcher, providing information with the
-   request and using the results returned.
-
-```php
-
-    // Requester schedules an Event with the Dispatcher and uses the results.
-    $results = $dispatcher->schedule('event', $options);
-
-```
-
-### Dispatcher
-
-The Dispatcher's job is to keep track of registrations for events by listeners so that
-it can respond with a list of listeners when a Requester schedules the event by
-delegating the management of the event activities to an Event Dispatcher.
-
-
-```php
-
-    // Dispatcher delegates Event Management to Event Dispatcher, passes results back to Requester
-    $results = delegate($event, getListeners(event), EventDispatcher);
-
-```
-
-### Event Dispatcher
-
-The Event Dispatcher is delegated the responsibility of managing the event by the Dispatcher.
-This means looping through a list of registered Listeners registered, authenticating and
-authorising the user with the listener,
-registered callback and then returning the collective results to the Dispatcher. Each
-Event Dispatcher handles a certain type of event and will have different methods.
-
-
-```php
-
-    // Event Dispatcher initiates the callback from each listener one at a time
-    for each ($listeners as $listener) {
-        // orders listeners by priority
-        // authenticates
-        // authorises
-        // initiate the listener
-        // determines if it should continue or stop
-        $this->listener->checkUserAuthorisation($event_name, $user);
-        $class = $listener->namespace;
-        $listener = new $class($listener->options);
-        $results = $listener->callback;
-    }
-
-```
-
-### Listener
-
-As with the Requester, the Listener can also be any part of the application. Most of the time,
-Listeners will be Plugins, but can also be a Controller, or the User object, etc.
-The Listeners involvement in the Event process is simple. It registers to listen to an
- event with the Dispatcher. Very specifically, "listening" means when the Event is scheduled,
- a callback provided by the Listeners should be invoked. The Listener then will finish the
- initiated process and pass back the results to the Event Dispatcher.
-
-```php
-
-    $this->dispatcher->register($event_name, $priority, $callback);
-
-    $this->dispatcher->unregister($event_name);
-
-    $this->dispatcher->register($event_name, $priority, $function ($whatever) use ($this) {
-           // do whatever;
-    };
-
-    $this->dispatcher->registerLocation($folder);
-
-```
 
 ## Install using Composer from Packagist
 
