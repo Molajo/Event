@@ -69,7 +69,7 @@ class DispatcherInjector extends AbstractInjector implements ServiceHandlerInter
         $event_dispatcher = new $class();
 
         $callback_events = $this->readFile(
-            BASE_FOLDER . '/Vendor/Molajo/Resources/Files/Output/Events.json'
+            BASE_FOLDER . '/Vendor/Molajo/Resource/Files/Output/Events.json'
         );
 
         $class = 'Molajo\\Event\\Dispatcher';

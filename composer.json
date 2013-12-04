@@ -1,7 +1,7 @@
 {
     "name": "molajo/event",
     "type": "molajo-package",
-    "description": "Molajo Events: Dispatcher, Event Dispatcher, and Event for PHP applications",
+    "description": "Molajo Events: Dispatcher, Event Dispatcher and Event Package for PHP applications",
     "keywords": ["Event", "Molajo", "CommonApi"],
     "homepage": "http://github.com/Molajo/Event",
     "license": "MIT",
@@ -14,7 +14,8 @@
     ],
     "require": {
         "php": ">=5.3.10",
-        "commonapi/event": "dev-master"
+        "commonapi/event": "dev-master",
+        "commonapi/exception": "dev-master"
     },
 
     "support": {

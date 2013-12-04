@@ -71,7 +71,6 @@ class EventInjector extends AbstractInjector implements ServiceHandlerInterface
             $event_name = '';
         }
 
-
         if (isset($this->options['resources'])) {
             $resources = $this->options['resources'];
         } else {
@@ -152,24 +151,35 @@ class EventInjector extends AbstractInjector implements ServiceHandlerInterface
 
         $class = 'Molajo\\Event\\Event';
 
+        $return_items = array();
+        $return_items[] = 'runtime_data';
+        $return_items[] = 'parameters';
+        $return_items[] = 'query';
+        $return_items[] = 'model_registry';
+        $return_items[] = 'query_results';
+        $return_items[] = 'rendered_view';
+        $return_items[] = 'rendered_page';
+
+        $data = array();
+        $data[] = $resources;
+        $data[] = $fieldhandler;
+        $data[] = $date_controller;
+        $data[] = $url_controller;
+        $data[] = $language_controller;
+        $data[] = $authorisation_controller;
+        $data[] = $runtime_data;
+        $data[] = $parameters;
+        $data[] = $query;
+        $data[] = $model_registry;
+        $data[] = $query_results;
+        $data[] = $rendered_view;
+        $data[] = $rendered_page;
+
         try {
             $this->service_instance = new $class(
                 $event_name,
-
-                $resources,
-                $fieldhandler,
-                $date_controller,
-                $url_controller,
-                $language_controller,
-                $authorisation_controller,
-
-                $runtime_data,
-                $parameters,
-                $query,
-                $model_registry,
-                $query_results,
-                $rendered_view,
-                $rendered_page
+                $return_items,
+                $data
             );
         } catch (Exception $e) {
             throw new RuntimeException

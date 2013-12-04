@@ -1,8 +1,8 @@
-**Alpha**
+=======
+Event [Alpha]
+=======
 
-=======
-Events
-=======
+[![Build Status](https://travis-ci.org/Molajo/Event.png?branch=master)](https://travis-ci.org/Molajo/Event)
 
 ## Events
 

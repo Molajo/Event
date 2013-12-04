@@ -11,7 +11,7 @@ namespace Molajo\Event;
 use CommonApi\Event\EventInterface;
 use CommonApi\Event\DispatcherInterface;
 use CommonApi\Event\EventDispatcherInterface;
-use Exception\Event\DispatcherException;
+use CommonApi\Exception\UnexpectedValueException;
 
 /**
  * Dispatcher
@@ -63,7 +63,7 @@ class Dispatcher implements DispatcherInterface
      *
      * @return  mixed
      * @since   1.0
-     * @throws  \Exception\Event\DispatcherException
+     * @throws  \CommonApi\Exception\UnexpectedValueException
      */
     public function registerForEvent($event_name, callable $callback, $priority = 50)
     {
@@ -88,7 +88,7 @@ class Dispatcher implements DispatcherInterface
      *
      * @return  array
      * @since   1.0
-     * @throws  \Exception\Event\DispatcherException
+     * @throws  \CommonApi\Exception\UnexpectedValueException
      */
     public function triggerEvent($event_name, EventInterface $event)
     {

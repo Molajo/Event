@@ -11,7 +11,7 @@ namespace Molajo\Event;
 use Exception;
 use CommonApi\Event\EventInterface;
 use CommonApi\Event\EventDispatcherInterface;
-use Exception\Event\EventDispatcherException;
+use CommonApi\Exception\UnexpectedValueException;
 
 /**
  * Event Dispatcher
@@ -26,82 +26,84 @@ class EventDispatcher implements EventDispatcherInterface
     /**
      * Event Dispatcher triggers Listeners in order of priority
      *
-     * @param   EventInterface $event
-     * @param   array          $listeners
+     * @param   EventInterface  $event
+     * @param   array           $listeners
      *
      * @return  array
      * @since   1.0
-     * @throws  \Exception\Event\EventDispatcherException
+     * @throws  \CommonApi\Exception\UnexpectedValueException
      */
     public function triggerListeners(EventInterface $event, array $listeners = array())
     {
+        $return_items = $event->get('return_items');
+
         if (count($listeners) === 0) {
-            return array(
-                $event->get('runtime_data'),
-                $event->get('parameters'),
-                $event->get('query'),
-                $event->get('model_registry'),
-                $event->get('query_results'),
-                $event->get('rendered_view'),
-                $event->get('rendered_page')
-            );
+            return $this->collectReturnItems($event);
         }
 
         foreach ($listeners as $listener) {
 
             /** Event Class */
+
             try {
                 $instance = new $listener (
                     $listener,
-                    $event->get('event_name'),
-                    $event->get('resources'),
-                    $event->get('fieldhandler'),
-                    $event->get('date_controller'),
-                    $event->get('url_controller'),
-                    $event->get('language_controller'),
-                    $event->get('authorisation_controller'),
-                    $event->get('runtime_data'),
-                    $event->get('parameters'),
-                    $event->get('query'),
-                    $event->get('model_registry'),
-                    $event->get('query_results'),
-                    $event->get('rendered_view'),
-                    $event->get('rendered_page')
+                    $event->get('data')
                 );
 
             } catch (Exception $e) {
-                throw new EventDispatcherException('Event Dispatcher: Could not instantiate Listener: '
+                throw new UnexpectedValueException('Event Dispatcher: Could not instantiate Listener: '
                 . $listener . ' ' . $e->getMessage());
             }
 
             /** Event Method */
+            $method = '';
+
             try {
                 $method = $event->get('event_name');
 
                 $instance->$method();
+
             } catch (Exception $e) {
-                throw new EventDispatcherException('Event Dispatcher: Exception from: '
+                throw new UnexpectedValueException('Event Dispatcher: Exception from: '
                 . $listener . ' ' . $method . ' ' . $e->getMessage());
             }
 
-            $event->set('runtime_data', $instance->get('runtime_data'));
-            $event->set('parameters', $instance->get('parameters'));
-            $event->set('query', $instance->get('query'));
-            $event->set('model_registry', $instance->get('model_registry'));
-            $event->set('query_results', $instance->get('query_results'));
-            $event->set('rendered_view', $instance->get('rendered_view'));
-            $event->set('rendered_page', $instance->get('rendered_page'));
+            foreach ($return_items as $key) {
+                $event->set($key, $instance->get($key));
+            }
         }
 
-        $results                   = array();
-        $results['runtime_data']   = $event->get('runtime_data');
-        $results['parameters']     = $event->get('parameters');
-        $results['query']          = $event->get('query');
-        $results['model_registry'] = $event->get('model_registry');
-        $results['query_results']  = $event->get('query_results');
-        $results['rendered_view']  = $event->get('rendered_view');
-        $results['rendered_page']  = $event->get('rendered_page');
+        return $this->collectReturnItems($event);
+    }
 
-        return $results;
+    /**
+     * Get data from event to return to scheduling process
+     *
+     * @param   EventInterface  $event
+     *
+     * @return  array
+     */
+    public function collectReturnItems(EventInterface $event)
+    {
+        $return_items = $event->get('return_items');
+
+        if (count($return_items) === 0) {
+            return array();
+        }
+
+        $collect = array();
+
+        foreach ($return_items as $key) {
+
+            try {
+                $collect[$key] = $event->get($key);
+
+            } catch (Exception $e) {
+                throw new UnexpectedValueException('Event Dispatcher Undefined Key: ' . $key);
+            }
+        }
+
+        return $collect;
     }
 }
