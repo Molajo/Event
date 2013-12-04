@@ -1,18 +1,19 @@
 <?php
 /**
- * Accepted Fieldhandler Test
+ * Event Test
  *
  * @package    Molajo
  * @copyright  2013 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
-namespace Molajo\Fieldhandler\Tests;
+namespace Molajo\Event\Tests;
 
-use Molajo\Fieldhandler\Adapter as adapter;
+use Molajo\Event\Event;
+use CommonApi\Event\EventInterface;
 use PHPUnit_Framework_TestCase;
 
 /**
- * Accepted Fieldhandler
+ * Accepted Event
  *
  * @package    Molajo
  * @copyright  2013 Amy Stephen. All rights reserved.
@@ -22,12 +23,12 @@ use PHPUnit_Framework_TestCase;
 class AcceptedTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Adapter
+     * Event Instance
      *
-     * @var    object  Molajo/Molajo/Adapter
+     * @var    object  CommonApi\Event\EventInterface
      * @since  1.0
      */
-    protected $adapter;
+    protected $event;
 
     /**
      * Set up
@@ -37,13 +38,13 @@ class AcceptedTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->adapter = new adapter();
+        $this->event = new event();
     }
 
     /**
      * test Validate Success
      *
-     * @covers  Molajo\Fieldhandler\Handler\Default::validate
+     * @covers  Molajo\Event\Handler\Default::validate
      * @return void
      * @since   1.0
      */
@@ -54,7 +55,7 @@ class AcceptedTest extends PHPUnit_Framework_TestCase
         $fieldhandler_type_chain = 'Accepted';
         $options                 = array();
 
-        $field_value = $this->adapter->validate($field_name, $field_value, $fieldhandler_type_chain, $options);
+        $field_value = $this->event->validate($field_name, $field_value, $fieldhandler_type_chain, $options);
 
         $this->assertEquals(1, $field_value);
 
@@ -64,7 +65,7 @@ class AcceptedTest extends PHPUnit_Framework_TestCase
     /**
      * test Validate Success2
      *
-     * @covers  Molajo\Fieldhandler\Handler\Default::validate
+     * @covers  Molajo\Event\Handler\Default::validate
      * @return void
      * @since   1.0
      */
@@ -75,7 +76,7 @@ class AcceptedTest extends PHPUnit_Framework_TestCase
         $fieldhandler_type_chain = 'Accepted';
         $options                 = array();
 
-        $field_value = $this->adapter->validate($field_name, $field_value, $fieldhandler_type_chain, $options);
+        $field_value = $this->event->validate($field_name, $field_value, $fieldhandler_type_chain, $options);
 
         $this->assertEquals('yes', $field_value);
 
@@ -85,7 +86,7 @@ class AcceptedTest extends PHPUnit_Framework_TestCase
     /**
      * test Validate Success 3
      *
-     * @covers  Molajo\Fieldhandler\Handler\Default::validate
+     * @covers  Molajo\Event\Handler\Default::validate
      * @return void
      * @since   1.0
      */
@@ -96,7 +97,7 @@ class AcceptedTest extends PHPUnit_Framework_TestCase
         $fieldhandler_type_chain = 'Accepted';
         $options                 = array();
 
-        $field_value = $this->adapter->validate($field_name, $field_value, $fieldhandler_type_chain, $options);
+        $field_value = $this->event->validate($field_name, $field_value, $fieldhandler_type_chain, $options);
 
         $this->assertEquals('on', $field_value);
 
@@ -106,7 +107,7 @@ class AcceptedTest extends PHPUnit_Framework_TestCase
     /**
      * test Validate Success 4
      *
-     * @covers  Molajo\Fieldhandler\Handler\Default::validate
+     * @covers  Molajo\Event\Handler\Default::validate
      * @return void
      * @since   1.0
      */
@@ -117,7 +118,7 @@ class AcceptedTest extends PHPUnit_Framework_TestCase
         $fieldhandler_type_chain = 'Accepted';
         $options                 = array();
 
-        $field_value = $this->adapter->validate($field_name, $field_value, $fieldhandler_type_chain, $options);
+        $field_value = $this->event->validate($field_name, $field_value, $fieldhandler_type_chain, $options);
 
         $this->assertEquals(true, $field_value);
 
@@ -125,7 +126,7 @@ class AcceptedTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers  Molajo\Fieldhandler\Handler\Default::validate
+     * @covers  Molajo\Event\Handler\Default::validate
      * @expectedException CommonApi\Exception\UnexpectedValueException
      * @return void
      * @since   1.0
@@ -137,7 +138,7 @@ class AcceptedTest extends PHPUnit_Framework_TestCase
         $fieldhandler_type_chain = 'Accepted';
         $options                 = array();
 
-        $field_value = $this->adapter->validate($field_name, $field_value, $fieldhandler_type_chain, $options);
+        $field_value = $this->event->validate($field_name, $field_value, $fieldhandler_type_chain, $options);
 
         return;
     }
@@ -145,7 +146,7 @@ class AcceptedTest extends PHPUnit_Framework_TestCase
     /**
      * test Filter Success
      *
-     * @covers  Molajo\Fieldhandler\Handler\Default::validate
+     * @covers  Molajo\Event\Handler\Default::validate
      * @return void
      * @since   1.0
      */
@@ -156,7 +157,7 @@ class AcceptedTest extends PHPUnit_Framework_TestCase
         $fieldhandler_type_chain = 'Accepted';
         $options                 = array();
 
-        $field_value = $this->adapter->filter($field_name, $field_value, $fieldhandler_type_chain, $options);
+        $field_value = $this->event->filter($field_name, $field_value, $fieldhandler_type_chain, $options);
 
         $this->assertEquals('on', $field_value);
 
@@ -164,7 +165,7 @@ class AcceptedTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers  Molajo\Fieldhandler\Handler\Default::filter
+     * @covers  Molajo\Event\Handler\Default::filter
      * @return void
      * @since   1.0
      */
@@ -175,7 +176,7 @@ class AcceptedTest extends PHPUnit_Framework_TestCase
         $fieldhandler_type_chain = 'Accepted';
         $options                 = array();
 
-        $field_value = $this->adapter->filter($field_name, $field_value, $fieldhandler_type_chain, $options);
+        $field_value = $this->event->filter($field_name, $field_value, $fieldhandler_type_chain, $options);
 
         return;
     }
