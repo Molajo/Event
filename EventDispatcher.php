@@ -24,31 +24,27 @@ use CommonApi\Exception\UnexpectedValueException;
 class EventDispatcher implements EventDispatcherInterface
 {
     /**
-     * Event Dispatcher triggers Listeners in order of priority
+     * Event Dispatcher triggers Listeners
      *
-     * @param   EventInterface  $event
-     * @param   array           $listeners
+     * @param   EventInterface $event
+     * @param   array          $listeners - array of callable anonymous functions
      *
      * @return  array
-     * @since   1.0
-     * @throws  \CommonApi\Exception\UnexpectedValueException
+     * @since   0.1
      */
     public function triggerListeners(EventInterface $event, array $listeners = array())
     {
         $return_items = $event->get('return_items');
 
         if (count($listeners) === 0) {
-            return $this->collectReturnItems($event);
+            return $this->getData($event);
         }
 
         foreach ($listeners as $listener) {
 
             /** Event Class */
             try {
-                $instance = new $listener (
-                    $event->get('event_name'),
-                    $event->get('data')
-                );
+                $instance = $listener($event->get('event_name'), $event->get('data'));
 
             } catch (Exception $e) {
                 throw new UnexpectedValueException('Event Dispatcher: Could not instantiate Listener: '
@@ -73,17 +69,18 @@ class EventDispatcher implements EventDispatcherInterface
             }
         }
 
-        return $this->collectReturnItems($event);
+        return $this->getData($event);
     }
 
     /**
      * Get data from event to return to scheduling process
      *
-     * @param   EventInterface  $event
+     * @param   EventInterface $event
      *
      * @return  array
+     * @throws  \CommonApi\Exception\UnexpectedValueException
      */
-    public function collectReturnItems(EventInterface $event)
+    protected function getData(EventInterface $event)
     {
         $return_items = $event->get('return_items');
 

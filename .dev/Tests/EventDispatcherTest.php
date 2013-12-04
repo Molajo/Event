@@ -60,25 +60,42 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase
      */
     public function testGet()
     {
+        $listeners     = array(
+
+            $x =  function ($event_name, $data) {
+                $class = 'Molajo\Event\Listener1';
+                $instance = new $class ($event_name, $data);
+                return $instance;
+            },
+
+            $x =  function ($event_name, $data) {
+                $class = 'Molajo\Event\Listener2';
+                $instance = new $class ($event_name, $data);
+                return $instance;
+            },
+
+            $x =  function ($event_name, $data) {
+                $class = 'Molajo\Event\Listener3';
+                $instance = new $class ($event_name, $data);
+                return $instance;
+            }
+        );
+
         $event_name   = 'Test';
         $return_items = array('data1', 'data2');
         $data         = array('data1' => 1, 'data2' => 2, 'data3' => 3);
 
         $this->event = new Event($event_name, $return_items, $data);
 
-        $listeners     = array('Molajo\Event\Listener1', 'Molajo\Event\Listener2', 'Molajo\Event\Listener3');
-
         $this->event_dispatcher = new EventDispatcher();
         $results = $this->event_dispatcher->triggerListeners($this->event, $listeners);
-        var_dump($results);
-/**
-        $this->assertEquals($event_name, $this->event->get('event_name'));
-        $this->assertEquals($return_items, $this->event->get('return_items'));
-        $this->assertEquals($data, $this->event->get('data'));
-*/
+
+        $this->assertEquals($data['data1'], $results['data1']);
+        $this->assertEquals($data['data2'], $results['data2']);
+        $this->assertEquals(2, count($results));
+
         return;
     }
-
 
     /**
      * Tear down
@@ -93,7 +110,7 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase
 }
 
 /**
- * Event Dispatcher
+ * Mock Listener Classes
  *
  * @package    Molajo
  * @copyright  2013 Amy Stephen. All rights reserved.
@@ -102,7 +119,6 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase
  */
 class Listener
 {
-
     /**
      * Return Items
      *
@@ -139,50 +155,26 @@ class Listener
         $this->event_name   = $event_name;
         $this->data         = $data;
     }
+    public function get ($key)
+    {
+        return $this->data[$key];
+    }
+    public function set ($key, $value)
+    {
+        $this->data[$key] = $value;
+    }
+    public function test ()
+    {
+
+    }
 }
 
 class Listener1 extends Listener
 {
-    public function get ($key)
-    {
-
-    }
-    public function set ($key, $value)
-    {
-
-    }
-    public function test ()
-    {
-
-    }
 }
 class Listener2 extends Listener
 {
-    public function get ($key)
-    {
-
-    }
-    public function set ($key, $value)
-    {
-
-    }
-    public function test ()
-    {
-
-    }
 }
 class Listener3 extends Listener
 {
-    public function get ($key)
-    {
-
-    }
-    public function set ($key, $value)
-    {
-
-    }
-    public function test ()
-    {
-
-    }
 }

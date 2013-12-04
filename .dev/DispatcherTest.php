@@ -98,7 +98,7 @@ class EventDispatcher implements EventDispatcherInterface
      *
      * @return  array
      */
-    public function collectReturnItems(EventInterface $event)
+    public function getData(EventInterface $event)
     {
         return $event;
     }

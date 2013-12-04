@@ -73,8 +73,8 @@ class Event implements EventInterface
      *
      * @param    $key
      *
-     * @return   array|null|object|string
-     * @since    1.0
+     * @return   mixed
+     * @since    0.1
      * @throws   \CommonApi\Exception\InvalidArgumentException
      */
     public function get($key)
@@ -89,6 +89,9 @@ class Event implements EventInterface
 
         } elseif ($key == 'data') {
             return $this->data;
+
+        } elseif (isset($this->data[$key])) {
+            return $this->data[$key];
         }
 
         throw new InvalidArgumentException
@@ -98,18 +101,17 @@ class Event implements EventInterface
     /**
      * Set a property value
      *
-     * @param    string $key
-     * @param    mixed  $value
+     * @param    string  $key
+     * @param    mixed   $value
      *
      * @return   $this
-     * @since    1.0
+     * @since    0.1
      * @throws   \CommonApi\Exception\InvalidArgumentException
      */
     public function set($key, $value)
     {
         $key = strtolower($key);
-echo $key . ' ' ;
-        var_dump($this->data);
+
         if ($key == 'event_name') {
             $this->event_name = $value;
 

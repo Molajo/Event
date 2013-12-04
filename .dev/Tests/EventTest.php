@@ -54,7 +54,7 @@ class EventTest extends PHPUnit_Framework_TestCase
         $return_items = array('data1', 'data2');
         $data         = array('data1' => 1, 'data2' => 2, 'data3' => 3);
 
-        $this->event = new event($event_name, $return_items, $data);
+        $this->event = new Event($event_name, $return_items, $data);
 
         $this->assertEquals($event_name, $this->event->get('event_name'));
         $this->assertEquals($return_items, $this->event->get('return_items'));
@@ -76,7 +76,7 @@ class EventTest extends PHPUnit_Framework_TestCase
         $return_items = array('data1', 'data2');
         $data         = array('data1' => 1, 'data2' => 2, 'data3' => 3);
 
-        $this->event = new event($event_name, $return_items, $data);
+        $this->event = new Event($event_name, $return_items, $data);
 
         $this->event->set('event_name', 'NewName');
 
@@ -99,7 +99,7 @@ class EventTest extends PHPUnit_Framework_TestCase
         $return_items = array('data1', 'data2');
         $data         = array('data1' => 1, 'data2' => 2, 'data3' => 3);
 
-        $this->event = new event($event_name, $return_items, $data);
+        $this->event = new Event($event_name, $return_items, $data);
 
         $this->event->get('key_does_not_exist');
 
@@ -120,7 +120,7 @@ class EventTest extends PHPUnit_Framework_TestCase
         $return_items = array('data1', 'data2');
         $data         = array('data1' => 1, 'data2' => 2, 'data3' => 3);
 
-        $this->event = new event($event_name, $return_items, $data);
+        $this->event = new Event($event_name, $return_items, $data);
 
         $this->event->set('key_does_not_exist', 3);
 

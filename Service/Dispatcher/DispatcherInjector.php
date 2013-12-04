@@ -108,12 +108,25 @@ class DispatcherInjector extends AbstractInjector implements ServiceHandlerInter
         $temp  = json_decode($input);
 
         if (count($temp) > 0) {
-            $temp_array = array();
-            foreach ($temp as $key => $value) {
-                $temp_array[$key] = $value;
+            $events = array();
+            $functions = array();
+            foreach ($temp as $key => $classes) {
+
+                foreach ($classes as $class) {
+
+                    $string = '$x =  function ($event_name, $data) {
+                        $class = "' . $class . '";
+                        $instance = new $class ($event_name, $data);
+                        return $instance;
+                    };';
+
+                    $functions[$class] = $string;
+                }
+
+                $events[$key] = $functions;
             }
         }
-
-        return $temp_array;
+        ksort($events);
+        return $events;
     }
 }
