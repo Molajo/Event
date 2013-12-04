@@ -20,7 +20,7 @@ use PHPUnit_Framework_TestCase;
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0
  */
-class AcceptedTest extends PHPUnit_Framework_TestCase
+class EventTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Event Instance
@@ -38,145 +38,91 @@ class AcceptedTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->event = new event();
+
     }
 
     /**
-     * test Validate Success
+     * Test Get Method
      *
-     * @covers  Molajo\Event\Handler\Default::validate
+     * @covers  Molajo\Event\Event::get
      * @return void
      * @since   1.0
      */
-    public function testValidateSuccess1()
+    public function testGet()
     {
-        $field_name              = 'agreement';
-        $field_value             = 1;
-        $fieldhandler_type_chain = 'Accepted';
-        $options                 = array();
+        $event_name   = 'Test';
+        $return_items = array('data1', 'data2');
+        $data         = array('data1' => 1, 'data2' => 2, 'data3' => 3);
 
-        $field_value = $this->event->validate($field_name, $field_value, $fieldhandler_type_chain, $options);
+        $this->event = new event($event_name, $return_items, $data);
 
-        $this->assertEquals(1, $field_value);
+        $this->assertEquals($event_name, $this->event->get('event_name'));
+        $this->assertEquals($return_items, $this->event->get('return_items'));
+        $this->assertEquals($data, $this->event->get('data'));
 
         return;
     }
 
     /**
-     * test Validate Success2
+     * Test Get Method
      *
-     * @covers  Molajo\Event\Handler\Default::validate
+     * @covers  Molajo\Event\Event::set
      * @return void
      * @since   1.0
      */
-    public function testValidateSuccess2()
+    public function testSet()
     {
-        $field_name              = 'agreement';
-        $field_value             = 'yes';
-        $fieldhandler_type_chain = 'Accepted';
-        $options                 = array();
+        $event_name   = 'Test';
+        $return_items = array('data1', 'data2');
+        $data         = array('data1' => 1, 'data2' => 2, 'data3' => 3);
 
-        $field_value = $this->event->validate($field_name, $field_value, $fieldhandler_type_chain, $options);
+        $this->event = new event($event_name, $return_items, $data);
 
-        $this->assertEquals('yes', $field_value);
+        $this->event->set('event_name', 'NewName');
+
+        $this->assertEquals('NewName', $this->event->get('event_name'));
 
         return;
     }
 
     /**
-     * test Validate Success 3
+     * Test Get Exception
      *
-     * @covers  Molajo\Event\Handler\Default::validate
-     * @return void
+     * @covers  Molajo\Event\Event::get
+     * @expectedException \CommonApi\Exception\InvalidArgumentException
+     * @return  void
      * @since   1.0
      */
-    public function testValidateSuccess3()
+    public function testInvalidGetKey()
     {
-        $field_name              = 'agreement';
-        $field_value             = 'on';
-        $fieldhandler_type_chain = 'Accepted';
-        $options                 = array();
+        $event_name   = 'Test';
+        $return_items = array('data1', 'data2');
+        $data         = array('data1' => 1, 'data2' => 2, 'data3' => 3);
 
-        $field_value = $this->event->validate($field_name, $field_value, $fieldhandler_type_chain, $options);
+        $this->event = new event($event_name, $return_items, $data);
 
-        $this->assertEquals('on', $field_value);
+        $this->event->get('key_does_not_exist');
 
         return;
     }
 
     /**
-     * test Validate Success 4
+     * Test Get Exception
      *
-     * @covers  Molajo\Event\Handler\Default::validate
-     * @return void
+     * @covers  Molajo\Event\Event::get
+     * @expectedException \CommonApi\Exception\InvalidArgumentException
+     * @return  void
      * @since   1.0
      */
-    public function testValidateSuccess4()
+    public function testInvalidSetKey()
     {
-        $field_name              = 'agreement';
-        $field_value             = true;
-        $fieldhandler_type_chain = 'Accepted';
-        $options                 = array();
+        $event_name   = 'Test';
+        $return_items = array('data1', 'data2');
+        $data         = array('data1' => 1, 'data2' => 2, 'data3' => 3);
 
-        $field_value = $this->event->validate($field_name, $field_value, $fieldhandler_type_chain, $options);
+        $this->event = new event($event_name, $return_items, $data);
 
-        $this->assertEquals(true, $field_value);
-
-        return;
-    }
-
-    /**
-     * @covers  Molajo\Event\Handler\Default::validate
-     * @expectedException CommonApi\Exception\UnexpectedValueException
-     * @return void
-     * @since   1.0
-     */
-    public function testValidateUnsuccessful()
-    {
-        $field_name              = 'agreement';
-        $field_value             = 'nope';
-        $fieldhandler_type_chain = 'Accepted';
-        $options                 = array();
-
-        $field_value = $this->event->validate($field_name, $field_value, $fieldhandler_type_chain, $options);
-
-        return;
-    }
-
-    /**
-     * test Filter Success
-     *
-     * @covers  Molajo\Event\Handler\Default::validate
-     * @return void
-     * @since   1.0
-     */
-    public function testFilterSuccess()
-    {
-        $field_name              = 'agreement';
-        $field_value             = 'on';
-        $fieldhandler_type_chain = 'Accepted';
-        $options                 = array();
-
-        $field_value = $this->event->filter($field_name, $field_value, $fieldhandler_type_chain, $options);
-
-        $this->assertEquals('on', $field_value);
-
-        return;
-    }
-
-    /**
-     * @covers  Molajo\Event\Handler\Default::filter
-     * @return void
-     * @since   1.0
-     */
-    public function testFilterUnsuccessful()
-    {
-        $field_name              = 'agreement';
-        $field_value             = 'noway';
-        $fieldhandler_type_chain = 'Accepted';
-        $options                 = array();
-
-        $field_value = $this->event->filter($field_name, $field_value, $fieldhandler_type_chain, $options);
+        $this->event->set('key_does_not_exist', 3);
 
         return;
     }
