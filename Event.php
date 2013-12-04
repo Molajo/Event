@@ -108,7 +108,8 @@ class Event implements EventInterface
     public function set($key, $value)
     {
         $key = strtolower($key);
-
+echo $key . ' ' ;
+        var_dump($this->data);
         if ($key == 'event_name') {
             $this->event_name = $value;
 

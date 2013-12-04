@@ -44,10 +44,9 @@ class EventDispatcher implements EventDispatcherInterface
         foreach ($listeners as $listener) {
 
             /** Event Class */
-
             try {
                 $instance = new $listener (
-                    $listener,
+                    $event->get('event_name'),
                     $event->get('data')
                 );
 
