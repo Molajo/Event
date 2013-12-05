@@ -10,6 +10,9 @@ namespace Molajo\Event;
 
 use Molajo\Event\Event;
 use Molajo\Event\EventDispatcher;
+use CommonApi\Event\EventInterface;
+use CommonApi\Event\DispatcherInterface;
+use CommonApi\Event\EventDispatcherInterface;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -22,6 +25,14 @@ use PHPUnit_Framework_TestCase;
  */
 class DispatcherTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * Dispatcher Instance
+     *
+     * @var    object  CommonApi\Event\DispatcherInterface
+     * @since  1.0
+     */
+    protected $dispatcher;
+
     /**
      * Event Dispatcher Instance
      *
@@ -58,41 +69,59 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      */
     public function testGet()
     {
-        $listeners     = array(
 
-            $x =  function ($event_name, $data) {
-                $class = 'Molajo\Event\Listener1';
-                $instance = new $class ($event_name, $data);
-                return $instance;
-            },
+        $class            = 'Molajo\\Event\\EventDispatcher';
+        $event_dispatcher = new $class();
 
-            $x =  function ($event_name, $data) {
-                $class = 'Molajo\Event\Listener2';
-                $instance = new $class ($event_name, $data);
-                return $instance;
-            },
+        $listeners = array(
+            'test' => array(
 
-            $x =  function ($event_name, $data) {
-                $class = 'Molajo\Event\Listener3';
-                $instance = new $class ($event_name, $data);
-                return $instance;
-            }
+                $x = function ($event_name, $data) {
+                    $class    = 'Molajo\Event\ListenerA1';
+                    $instance = new $class ($event_name, $data);
+                    return $instance;
+                },
+                $x = function ($event_name, $data) {
+                    $class    = 'Molajo\Event\ListenerA2';
+                    $instance = new $class ($event_name, $data);
+                    return $instance;
+                },
+                $x = function ($event_name, $data) {
+                    $class    = 'Molajo\Event\ListenerA3';
+                    $instance = new $class ($event_name, $data);
+                    return $instance;
+                }
+
+            )
         );
+
+        $class    = 'Molajo\\Event\\Dispatcher2';
+        $instance = new $class($event_dispatcher, $listeners);
+
+        $callback = function ($event_name, $data) {
+                    $class    = 'Molajo\Event\ListenerA4';
+                    $instance = new $class ($event_name, $data);
+                    return $instance;
+         };
+
+        $instance->registerForEvent('Wacky', $callback);
+        $this->assertEquals(array($callback), $instance->getWacky());
+
 
         $event_name   = 'Test';
         $return_items = array('data1', 'data2');
         $data         = array('data1' => 1, 'data2' => 2, 'data3' => 3);
 
-        $this->event = new Event($event_name, $return_items, $data);
+        $event_instance = new Event($event_name, $return_items, $data);
 
-        $this->event_dispatcher = new EventDispatcher();
-        $results = $this->event_dispatcher->triggerListeners($this->event, $listeners);
+        $results = $instance->triggerEvent('test', $event_instance);
 
         $this->assertEquals($data['data1'], $results['data1']);
         $this->assertEquals($data['data2'], $results['data2']);
         $this->assertEquals(2, count($results));
 
         return;
+
     }
 
     /**
@@ -107,6 +136,14 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
     }
 }
 
+class Dispatcher2 extends Dispatcher implements DispatcherInterface
+{
+    public function getWacky()
+    {
+        return $this->callback_events['Wacky'];
+    }
+}
+
 /**
  * Mock Listener Classes
  *
@@ -115,7 +152,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0
  */
-class Listener
+class ListenerA
 {
     /**
      * Return Items
@@ -150,29 +187,34 @@ class Listener
         $event_name = null,
         array $data = array()
     ) {
-        $this->event_name   = $event_name;
-        $this->data         = $data;
+        $this->event_name = $event_name;
+        $this->data       = $data;
     }
-    public function get ($key)
+
+    public function get($key)
     {
         return $this->data[$key];
     }
-    public function set ($key, $value)
+
+    public function set($key, $value)
     {
         $this->data[$key] = $value;
     }
-    public function test ()
+
+    public function test()
     {
 
     }
 }
 
-class Listener1 extends Listener
+class ListenerA1 extends ListenerA
 {
 }
-class Listener2 extends Listener
+
+class ListenerA2 extends ListenerA
 {
 }
-class Listener3 extends Listener
+
+class ListenerA3 extends ListenerA
 {
 }

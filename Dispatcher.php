@@ -56,7 +56,7 @@ class Dispatcher implements DispatcherInterface
             $this->callback_events  = $callback_events;
             foreach ($callback_events as $event_name => $listeners) {
                 if (count($listeners) > 0) {
-                    foreach ($listeners as $key => $listener) {
+                    foreach ($listeners as $listener) {
                         $this->registerForEvent($event_name, $listener, 50);
                     }
                 }
@@ -74,7 +74,7 @@ class Dispatcher implements DispatcherInterface
      * @return  mixed
      * @since   0.1
      */
-    public function registerForEvent($event_name, callable $callback, $priority = 50)
+    public function registerForEvent($event_name, $callback, $priority = 50)
     {
         if (isset($this->callback_events[$event_name])) {
             $listeners = $this->callback_events[$event_name];
@@ -84,7 +84,7 @@ class Dispatcher implements DispatcherInterface
 
         $listeners[] = $callback;
 
-        $this->callback_events[$event_name] = array_unique($listeners);
+        $this->callback_events[$event_name] = $listeners;
 
         return $this;
     }
