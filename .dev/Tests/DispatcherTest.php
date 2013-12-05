@@ -69,7 +69,6 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      */
     public function testGet()
     {
-
         $class            = 'Molajo\\Event\\EventDispatcher';
         $event_dispatcher = new $class();
 
@@ -91,7 +90,6 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
                     $instance = new $class ($event_name, $data);
                     return $instance;
                 }
-
             )
         );
 
@@ -121,7 +119,6 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(2, count($results));
 
         return;
-
     }
 
     /**
