@@ -61,19 +61,19 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase
         $listeners     = array(
 
             $x =  function ($event_name, $data) {
-                $class = 'Molajo\Event\Listener1';
+                $class = 'Molajo\Event\ListenerZ1';
                 $instance = new $class ($event_name, $data);
                 return $instance;
             },
 
             $x =  function ($event_name, $data) {
-                $class = 'Molajo\Event\Listener2';
+                $class = 'Molajo\Event\ListenerZ2';
                 $instance = new $class ($event_name, $data);
                 return $instance;
             },
 
             $x =  function ($event_name, $data) {
-                $class = 'Molajo\Event\Listener3';
+                $class = 'Molajo\Event\ListenerZ3';
                 $instance = new $class ($event_name, $data);
                 return $instance;
             }
@@ -115,7 +115,7 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0
  */
-class Listener
+class ListenerZ
 {
     /**
      * Return Items
@@ -167,12 +167,12 @@ class Listener
     }
 }
 
-class Listener1 extends Listener
+class ListenerZ1 extends ListenerZ
 {
 }
-class Listener2 extends Listener
+class ListenerZ2 extends ListenerZ
 {
 }
-class Listener3 extends Listener
+class ListenerZ3 extends ListenerZ
 {
 }
