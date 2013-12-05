@@ -49,7 +49,7 @@ class DispatcherInjector extends AbstractInjector implements ServiceHandlerInter
      */
     public function setDependencies(array $reflection = null)
     {
-        parent::setDependencies(null);
+        parent::setDependencies();
 
         $this->dependencies = array();
 
@@ -97,8 +97,6 @@ class DispatcherInjector extends AbstractInjector implements ServiceHandlerInter
      */
     protected function readFile($file_name)
     {
-        $temp_array = array();
-
         if (file_exists($file_name)) {
         } else {
             return array();

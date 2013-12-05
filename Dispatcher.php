@@ -47,11 +47,21 @@ class Dispatcher implements DispatcherInterface
      * @since 1.0
      */
     public function __construct(
-        EventDispatcherInterface $eventdispatcher,
+        EventDispatcherInterface $event_dispatcher,
         array $callback_events = array()
     ) {
-        $this->event_dispatcher = $eventdispatcher;
-        $this->callback_events  = $callback_events;
+        $this->event_dispatcher = $event_dispatcher;
+
+        if (count($callback_events) > 0) {
+            $this->callback_events  = $callback_events;
+            foreach ($callback_events as $event_name => $listeners) {
+                if (count($listeners) > 0) {
+                    foreach ($listeners as $key => $listener) {
+                        $this->registerForEvent($event_name, $listener, 50);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -62,8 +72,7 @@ class Dispatcher implements DispatcherInterface
      * @param   int      $priority 0 (lowest) to 100 (highest)
      *
      * @return  mixed
-     * @since   1.0
-     * @throws  \CommonApi\Exception\UnexpectedValueException
+     * @since   0.1
      */
     public function registerForEvent($event_name, callable $callback, $priority = 50)
     {
@@ -81,14 +90,13 @@ class Dispatcher implements DispatcherInterface
     }
 
     /**
-     * Requester schedules an Event with Dispatcher
+     * Requester Schedules Event with Dispatcher
      *
-     * @param   string $event_name
-     * @param   object $event \CommonApi\Event\EventInterface
+     * @param   string         $event_name
+     * @param   EventInterface $event      CommonApi\Event\EventInterface
      *
-     * @return  array
-     * @since   1.0
-     * @throws  \CommonApi\Exception\UnexpectedValueException
+     * @return  $this
+     * @since   0.1
      */
     public function triggerEvent($event_name, EventInterface $event)
     {

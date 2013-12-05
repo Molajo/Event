@@ -1,6 +1,6 @@
 <?php
 /**
- * Event Dispatcher Test
+ * Dispatcher Test
  *
  * @package    Molajo
  * @copyright  2013 Amy Stephen. All rights reserved.
@@ -20,7 +20,7 @@ use PHPUnit_Framework_TestCase;
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0
  */
-class EventDispatcherTest extends PHPUnit_Framework_TestCase
+class DispatcherTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Event Dispatcher Instance
