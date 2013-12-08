@@ -9,7 +9,6 @@
 namespace Molajo\Event;
 
 use Molajo\Event\Event;
-use Molajo\Event\EventDispatcher;
 use CommonApi\Event\EventInterface;
 use CommonApi\Event\DispatcherInterface;
 use CommonApi\Event\EventDispatcherInterface;

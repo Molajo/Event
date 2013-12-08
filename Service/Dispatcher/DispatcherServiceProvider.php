@@ -1,6 +1,6 @@
 <?php
 /**
- * Event Dispatcher Dependency Injector
+ * Event Dispatcher Service Provider
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -10,18 +10,18 @@ namespace Molajo\Service\Dispatcher;
 
 use Exception;
 use CommonApi\Exception\RuntimeException;
-use Molajo\IoC\Handler\AbstractInjector;
-use CommonApi\IoC\ServiceHandlerInterface;
+use Molajo\IoC\AbstractServiceProvider;
+use CommonApi\IoC\ServiceProviderInterface;
 
 /**
- * Event Dispatcher Dependency Injector
+ * Event Dispatcher Service Provider
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2013 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class DispatcherInjector extends AbstractInjector implements ServiceHandlerInterface
+class DispatcherServiceProvider extends AbstractServiceProvider implements ServiceProviderInterface
 {
     /**
      * Constructor
@@ -40,7 +40,7 @@ class DispatcherInjector extends AbstractInjector implements ServiceHandlerInter
     }
 
     /**
-     * Instantiate a new handler and inject it into the Adapter for the ServiceHandlerInterface
+     * Instantiate a new handler and inject it into the Adapter for the ServiceProviderInterface
      * Retrieve a list of Interface dependencies and return the data ot the controller.
      *
      * @return  array
