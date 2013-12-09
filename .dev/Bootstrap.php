@@ -13,7 +13,6 @@ if (!defined('PHP_VERSION_ID')) {
     define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
 }
 
-
 $base     = substr(__DIR__, 0, strlen(__DIR__) - 5);
 $classmap = array();
 $classmap = createClassMap($base . '/vendor/commonapi/event', 'CommonApi\\Event\\');
@@ -24,9 +23,9 @@ $results  = createClassMap(
 
 $classmap = array_merge($classmap, $results);
 
-$classmap['Molajo\\Event\\Dispatcher']   = $base . '/Dispatcher.php';
-$classmap['Molajo\\Event\\Event']   = $base . '/Event.php';
-$classmap['Molajo\\Event\\EventDispatcher']   = $base . '/EventDispatcher.php';
+$classmap['Molajo\\Event\\Dispatcher']   = $base . '/Source/Dispatcher.php';
+$classmap['Molajo\\Event\\Event']   = $base . '/Source/Event.php';
+$classmap['Molajo\\Event\\EventDispatcher']   = $base . '/Source/EventDispatcher.php';
 ksort($classmap);
 
 spl_autoload_register(
