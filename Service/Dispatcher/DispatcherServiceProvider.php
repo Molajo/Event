@@ -69,7 +69,7 @@ class DispatcherServiceProvider extends AbstractServiceProvider implements Servi
         $event_dispatcher = new $class();
 
         $callback_events = $this->readFile(
-            BASE_FOLDER . '/vendor/molajo/resource/Files/Output/Events.json'
+            BASE_FOLDER . '/vendor/molajo/resource/Source/Files/Output/Events.json'
         );
 
         $class = 'Molajo\\Event\\Dispatcher';
