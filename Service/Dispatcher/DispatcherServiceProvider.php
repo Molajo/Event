@@ -107,24 +107,21 @@ class DispatcherServiceProvider extends AbstractServiceProvider implements Servi
 
         if (count($temp) > 0) {
             $events = array();
-            $functions = array();
+
             foreach ($temp as $key => $classes) {
 
+                $functions = array();
                 foreach ($classes as $class) {
-
-                    $string = '$x =  function ($event_name, $data) {
-                        $class = "' . $class . '";
-                        $instance = new $class ($event_name, $data);
-                        return $instance;
-                    };';
-
-                    $functions[$class] = $string;
+                    $functions[] = $class;
                 }
 
+                sort($functions);
                 $events[$key] = $functions;
             }
         }
+
         ksort($events);
+
         return $events;
     }
 }

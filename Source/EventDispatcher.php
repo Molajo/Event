@@ -44,7 +44,11 @@ class EventDispatcher implements EventDispatcherInterface
 
             /** Event Class */
             try {
-                $instance = $listener($event->get('event_name'), $event->get('data'));
+
+                $instance = new $listener(
+                    $event->get('event_name'),
+                    $event->get('data')
+                );
 
             } catch (Exception $e) {
                 throw new UnexpectedValueException('Event Dispatcher: Could not instantiate Listener: '
