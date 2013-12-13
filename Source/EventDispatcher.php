@@ -47,6 +47,7 @@ class EventDispatcher implements EventDispatcherInterface
 
                 $instance = new $listener(
                     $event->get('event_name'),
+                    $listener,
                     $event->get('data')
                 );
 
