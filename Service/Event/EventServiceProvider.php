@@ -71,10 +71,10 @@ class EventServiceProvider extends AbstractServiceProvider implements ServicePro
             $event_name = '';
         }
 
-        if (isset($this->options['resources'])) {
-            $resources = $this->options['resources'];
+        if (isset($this->options['resource'])) {
+            $resource = $this->options['resource'];
         } else {
-            $resources = new stdClass();
+            $resource = new stdClass();
         }
 
         if (isset($this->options['fieldhandler'])) {
@@ -161,7 +161,7 @@ class EventServiceProvider extends AbstractServiceProvider implements ServicePro
         $return_items[] = 'rendered_page';
 
         $data                             = array();
-        $data['resources']                = $resources;
+        $data['resource']                 = $resource;
         $data['fieldhandler']             = $fieldhandler;
         $data['date_controller']          = $date_controller;
         $data['url_controller']           = $url_controller;
