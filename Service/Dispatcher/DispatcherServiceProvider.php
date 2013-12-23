@@ -79,6 +79,7 @@ class DispatcherServiceProvider extends AbstractServiceProvider implements Servi
                 $event_dispatcher,
                 $callback_events
             );
+
         } catch (Exception $e) {
             throw new RuntimeException
             ('Render: Could not instantiate Handler: ' . $class);

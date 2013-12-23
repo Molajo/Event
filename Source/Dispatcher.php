@@ -98,7 +98,7 @@ class Dispatcher implements DispatcherInterface
      * @return  $this
      * @since   0.1
      */
-    public function triggerEvent($event_name, EventInterface $event)
+    public function scheduleEvent($event_name, EventInterface $event)
     {
         if (isset($this->callback_events[$event_name])) {
             $listeners = $this->callback_events[$event_name];

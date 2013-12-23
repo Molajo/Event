@@ -44,6 +44,7 @@ class EventDispatcher implements EventDispatcherInterface
 
             /** Event Class */
             try {
+//echo $listener . ' ' . $event->get('event_name') . '<br />';
 
                 $instance = new $listener(
                     $event->get('event_name'),

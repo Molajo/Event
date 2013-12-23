@@ -111,7 +111,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 
         $event_instance = new Event($event_name, $return_items, $data);
 
-        $results = $instance->triggerEvent('test', $event_instance);
+        $results = $instance->scheduleEvent('test', $event_instance);
 
         $this->assertEquals($data['data1'], $results['data1']);
         $this->assertEquals($data['data2'], $results['data2']);
