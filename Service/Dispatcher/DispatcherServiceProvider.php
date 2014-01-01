@@ -10,8 +10,8 @@ namespace Molajo\Service\Dispatcher;
 
 use Exception;
 use CommonApi\Exception\RuntimeException;
-use Molajo\IoC\AbstractServiceProvider;
 use CommonApi\IoC\ServiceProviderInterface;
+use Molajo\IoC\AbstractServiceProvider;
 
 /**
  * Event Dispatcher Service Provider
@@ -40,8 +40,7 @@ class DispatcherServiceProvider extends AbstractServiceProvider implements Servi
     }
 
     /**
-     * Instantiate a new handler and inject it into the Adapter for the ServiceProviderInterface
-     * Retrieve a list of Interface dependencies and return the data ot the controller.
+     * Define Dependencies for the Service
      *
      * @return  array
      * @since   1.0

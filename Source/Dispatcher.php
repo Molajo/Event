@@ -8,10 +8,9 @@
  */
 namespace Molajo\Event;
 
-use CommonApi\Event\EventInterface;
 use CommonApi\Event\DispatcherInterface;
 use CommonApi\Event\EventDispatcherInterface;
-use CommonApi\Exception\UnexpectedValueException;
+use CommonApi\Event\EventInterface;
 
 /**
  * Dispatcher
@@ -83,8 +82,10 @@ class Dispatcher implements DispatcherInterface
         }
 
         $listeners[] = $callback;
+        $unique = array_unique($listeners);
+        sort($unique);
 
-        $this->callback_events[$event_name] = $listeners;
+        $this->callback_events[$event_name] = $unique;
 
         return $this;
     }

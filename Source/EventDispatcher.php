@@ -40,11 +40,47 @@ class EventDispatcher implements EventDispatcherInterface
             return $this->getData($event);
         }
 
+        $event_name = $event->get('event_name');
+        $model_registry = $event->get('model_registry');
+
+        if (is_array($model_registry)
+            && isset($model_registry['plugins'])
+            && ($event_name == 'onBeforeRead' || $event_name == 'onAfterRead' || $event_name == 'onAfterReadall')
+        ) {
+
+            $plugins = $model_registry['plugins'];
+
+            if (isset($model_registry['get_customfields'])
+                && $model_registry['get_customfields'] == 1
+                && $event_name == 'onAfterRead') {
+                $plugins[] = 'Customfields';
+            }
+
+            $x = array_unique($plugins);
+            sort($x);
+            $plugins = $x;
+
+            if (count($plugins) > 0 && is_array($plugins)) {
+
+                $filtered = array();
+
+                foreach ($plugins as $plugin) {
+                    $qcn = 'Molajo\\Plugin\\' . $plugin . '\\' . $plugin . 'Plugin';
+                    if (in_array($qcn, $listeners)) {
+                        $filtered[] = $qcn;
+                    }
+                }
+
+                $listeners = $filtered;
+            }
+        }
+
         foreach ($listeners as $listener) {
 
             /** Event Class */
             try {
-//echo $listener . ' ' . $event->get('event_name') . '<br />';
+
+echo $listener . ' ' . $event->get('event_name') . '<br />';
 
                 $instance = new $listener(
                     $event->get('event_name'),

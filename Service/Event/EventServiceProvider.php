@@ -15,7 +15,7 @@ use CommonApi\Exception\RuntimeException;
 use CommonApi\IoC\ServiceProviderInterface;
 
 /**
- * Event Event Service Provider
+ * Event Service Provider
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -55,40 +55,12 @@ class EventServiceProvider extends AbstractServiceProvider implements ServicePro
 
         $options = array('if_exists' => true);
 
-        if (isset($this->options['resource'])) {
-        } else {
-            $this->dependencies['Resource'] = $options;
-        }
-
-        if (isset($this->options['fieldhandler'])) {
-        } else {
-            $this->dependencies['Fieldhandler'] = $options;
-        }
-
-        if (isset($this->options['date_controller'])) {
-        } else {
-            $this->dependencies['Date'] = $options;
-        }
-
-        if (isset($this->options['url_controller'])) {
-        } else {
-            $this->dependencies['Url'] = $options;
-        }
-
-        if (isset($this->options['language_controller'])) {
-        } else {
-            $this->dependencies['Language'] = $options;
-        }
-
-        if (isset($this->options['authorisation_controller'])) {
-        } else {
-            $this->dependencies['Authorisation'] = $options;
-        }
-
-        if (isset($this->options['runtime_data'])) {
-        } else {
-            $this->dependencies['Runtimedata'] = $options;
-        }
+        $this->dependencies['Resource']      = $options;
+        $this->dependencies['Fieldhandler']  = $options;
+        $this->dependencies['Date']          = $options;
+        $this->dependencies['Url']           = $options;
+        $this->dependencies['Language']      = $options;
+        $this->dependencies['Authorisation'] = $options;
 
         if (isset($this->options['runtime_data'])) {
         } else {
@@ -114,41 +86,12 @@ class EventServiceProvider extends AbstractServiceProvider implements ServicePro
             ('EventServiceProvider: Event name not provided');
         }
 
-        if (isset($this->options['resource'])) {
-            $resource = $this->options['resource'];
-        } else {
-            $resource = $this->dependencies['Resource'];
-        }
-
-        if (isset($this->options['fieldhandler'])) {
-            $fieldhandler = $this->options['fieldhandler'];
-        } else {
-            $fieldhandler = $this->dependencies['Fieldhandler'];
-        }
-
-        if (isset($this->options['date_controller'])) {
-            $date_controller = $this->options['date_controller'];
-        } else {
-            $date_controller = $this->dependencies['Date'];
-        }
-
-        if (isset($this->options['url_controller'])) {
-            $url_controller = $this->options['url_controller'];
-        } else {
-            $url_controller = $this->dependencies['Url'];
-        }
-
-        if (isset($this->options['language_controller'])) {
-            $language_controller = $this->options['language_controller'];
-        } else {
-            $language_controller = $this->dependencies['Language'];
-        }
-
-        if (isset($this->options['authorisation_controller'])) {
-            $authorisation_controller = $this->options['authorisation_controller'];
-        } else {
-            $authorisation_controller = $this->dependencies['Authorisation'];
-        }
+        $resource                 = $this->dependencies['Resource'];
+        $fieldhandler             = $this->dependencies['Fieldhandler'];
+        $date_controller          = $this->dependencies['Date'];
+        $url_controller           = $this->dependencies['Url'];
+        $language_controller      = $this->dependencies['Language'];
+        $authorisation_controller = $this->dependencies['Authorisation'];
 
         if (isset($this->options['runtime_data'])) {
             $runtime_data = $this->options['runtime_data'];
