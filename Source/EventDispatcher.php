@@ -4,7 +4,7 @@
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  */
 namespace Molajo\Event;
 
@@ -18,7 +18,7 @@ use CommonApi\Exception\UnexpectedValueException;
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
 class EventDispatcher implements EventDispatcherInterface
@@ -40,7 +40,7 @@ class EventDispatcher implements EventDispatcherInterface
             return $this->getData($event);
         }
 
-        $event_name = $event->get('event_name');
+        $event_name     = $event->get('event_name');
         $model_registry = $event->get('model_registry');
 
         if (is_array($model_registry)
@@ -52,7 +52,8 @@ class EventDispatcher implements EventDispatcherInterface
 
             if (isset($model_registry['get_customfields'])
                 && $model_registry['get_customfields'] == 1
-                && $event_name == 'onAfterRead') {
+                && $event_name == 'onAfterRead'
+            ) {
                 $plugins[] = 'Customfields';
             }
 
@@ -80,7 +81,7 @@ class EventDispatcher implements EventDispatcherInterface
             /** Event Class */
             try {
 
-echo $listener . ' ' . $event->get('event_name') . '<br />';
+//echo $listener . ' ' . $event->get('event_name') . '<br />';
 
                 $instance = new $listener(
                     $event->get('event_name'),

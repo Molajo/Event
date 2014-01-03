@@ -3,7 +3,7 @@
  * Dispatcher Test
  *
  * @package    Molajo
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
 namespace Molajo\Event;
@@ -18,7 +18,7 @@ use PHPUnit_Framework_TestCase;
  * Event Dispatcher
  *
  * @package    Molajo
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0
  */
@@ -96,10 +96,10 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
         $instance = new $class($event_dispatcher, $listeners);
 
         $callback = function ($event_name, $data) {
-                    $class    = 'Molajo\Event\ListenerA4';
-                    $instance = new $class ($event_name, $data);
-                    return $instance;
-         };
+            $class    = 'Molajo\Event\ListenerA4';
+            $instance = new $class ($event_name, $data);
+            return $instance;
+        };
 
         $instance->registerForEvent('Wacky', $callback);
         $this->assertEquals(array($callback), $instance->getWacky());
@@ -144,7 +144,7 @@ class Dispatcher2 extends Dispatcher implements DispatcherInterface
  * Mock Listener Classes
  *
  * @package    Molajo
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0
  */

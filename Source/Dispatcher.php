@@ -4,7 +4,7 @@
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  */
 namespace Molajo\Event;
 
@@ -17,7 +17,7 @@ use CommonApi\Event\EventInterface;
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
 class Dispatcher implements DispatcherInterface
@@ -52,7 +52,7 @@ class Dispatcher implements DispatcherInterface
         $this->event_dispatcher = $event_dispatcher;
 
         if (count($callback_events) > 0) {
-            $this->callback_events  = $callback_events;
+            $this->callback_events = $callback_events;
             foreach ($callback_events as $event_name => $listeners) {
                 if (count($listeners) > 0) {
                     foreach ($listeners as $listener) {
@@ -82,7 +82,7 @@ class Dispatcher implements DispatcherInterface
         }
 
         $listeners[] = $callback;
-        $unique = array_unique($listeners);
+        $unique      = array_unique($listeners);
         sort($unique);
 
         $this->callback_events[$event_name] = $unique;

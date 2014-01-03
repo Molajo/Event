@@ -3,12 +3,12 @@
  * Bootstrap for Testing
  *
  * @package    Molajo
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
 include_once __DIR__ . '/CreateClassMap.php';
 
-if (!defined('PHP_VERSION_ID')) {
+if (! defined('PHP_VERSION_ID')) {
     $version = explode('.', phpversion());
     define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
 }
@@ -23,9 +23,9 @@ $results  = createClassMap(
 
 $classmap = array_merge($classmap, $results);
 
-$classmap['Molajo\\Event\\Dispatcher']   = $base . '/Source/Dispatcher.php';
-$classmap['Molajo\\Event\\Event']   = $base . '/Source/Event.php';
-$classmap['Molajo\\Event\\EventDispatcher']   = $base . '/Source/EventDispatcher.php';
+$classmap['Molajo\\Event\\Dispatcher']      = $base . '/Source/Dispatcher.php';
+$classmap['Molajo\\Event\\Event']           = $base . '/Source/Event.php';
+$classmap['Molajo\\Event\\EventDispatcher'] = $base . '/Source/EventDispatcher.php';
 ksort($classmap);
 
 spl_autoload_register(

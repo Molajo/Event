@@ -4,7 +4,7 @@
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  */
 namespace Molajo\Service\Event;
 
@@ -19,7 +19,7 @@ use CommonApi\IoC\ServiceProviderInterface;
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
 class EventServiceProvider extends AbstractServiceProvider implements ServiceProviderInterface
@@ -123,6 +123,12 @@ class EventServiceProvider extends AbstractServiceProvider implements ServicePro
             $query_results = array();
         }
 
+        if (isset($this->options['row'])) {
+            $row = $this->options['row'];
+        } else {
+            $row = new stdClass();
+        }
+
         if (isset($this->options['rendered_view'])) {
             $rendered_view = $this->options['rendered_view'];
         } else {
@@ -143,6 +149,7 @@ class EventServiceProvider extends AbstractServiceProvider implements ServicePro
         $return_items[] = 'query';
         $return_items[] = 'model_registry';
         $return_items[] = 'query_results';
+        $return_items[] = 'row';
         $return_items[] = 'rendered_view';
         $return_items[] = 'rendered_page';
 
@@ -160,6 +167,7 @@ class EventServiceProvider extends AbstractServiceProvider implements ServicePro
         $data['query']                    = $query;
         $data['model_registry']           = $model_registry;
         $data['query_results']            = $query_results;
+        $data['row']                      = $row;
         $data['rendered_view']            = $rendered_view;
         $data['rendered_page']            = $rendered_page;
 

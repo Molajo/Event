@@ -3,7 +3,7 @@
  * Event Dispatcher Test
  *
  * @package    Molajo
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
 namespace Molajo\Event;
@@ -16,7 +16,7 @@ use PHPUnit_Framework_TestCase;
  * Event Dispatcher
  *
  * @package    Molajo
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0
  */
@@ -58,22 +58,20 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase
      */
     public function testGet()
     {
-        $listeners     = array(
+        $listeners = array(
 
-            $x =  function ($event_name, $data) {
-                $class = 'Molajo\Event\ListenerZ1';
+            $x = function ($event_name, $data) {
+                $class    = 'Molajo\Event\ListenerZ1';
                 $instance = new $class ($event_name, $data);
                 return $instance;
             },
-
-            $x =  function ($event_name, $data) {
-                $class = 'Molajo\Event\ListenerZ2';
+            $x = function ($event_name, $data) {
+                $class    = 'Molajo\Event\ListenerZ2';
                 $instance = new $class ($event_name, $data);
                 return $instance;
             },
-
-            $x =  function ($event_name, $data) {
-                $class = 'Molajo\Event\ListenerZ3';
+            $x = function ($event_name, $data) {
+                $class    = 'Molajo\Event\ListenerZ3';
                 $instance = new $class ($event_name, $data);
                 return $instance;
             }
@@ -86,7 +84,7 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase
         $this->event = new Event($event_name, $return_items, $data);
 
         $this->event_dispatcher = new EventDispatcher();
-        $results = $this->event_dispatcher->triggerListeners($this->event, $listeners);
+        $results                = $this->event_dispatcher->triggerListeners($this->event, $listeners);
 
         $this->assertEquals($data['data1'], $results['data1']);
         $this->assertEquals($data['data2'], $results['data2']);
@@ -111,7 +109,7 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase
  * Mock Listener Classes
  *
  * @package    Molajo
- * @copyright  2013 Amy Stephen. All rights reserved.
+ * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0
  */
@@ -150,18 +148,21 @@ class ListenerZ
         $event_name = null,
         array $data = array()
     ) {
-        $this->event_name   = $event_name;
-        $this->data         = $data;
+        $this->event_name = $event_name;
+        $this->data       = $data;
     }
-    public function get ($key)
+
+    public function get($key)
     {
         return $this->data[$key];
     }
-    public function set ($key, $value)
+
+    public function set($key, $value)
     {
         $this->data[$key] = $value;
     }
-    public function test ()
+
+    public function test()
     {
 
     }
@@ -170,9 +171,11 @@ class ListenerZ
 class ListenerZ1 extends ListenerZ
 {
 }
+
 class ListenerZ2 extends ListenerZ
 {
 }
+
 class ListenerZ3 extends ListenerZ
 {
 }
