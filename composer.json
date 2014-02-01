@@ -17,14 +17,13 @@
         "commonapi/event": "dev-master",
         "commonapi/exception": "dev-master"
     },
-
     "support": {
         "event": "hello@molajo.org",
         "irc": "irc://irc.freenode.org/molajo"
     },
     "autoload": {
         "psr-4": {
-            "Molajo\\Event": "./"
+            "Molajo\\Event\\": "Source/"
         }
     }
 }
