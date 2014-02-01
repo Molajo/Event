@@ -22,7 +22,20 @@ use CommonApi\Exception\RuntimeException;
 abstract class DisplayEventPlugin extends AbstractPlugin implements DisplayInterface
 {
     /**
-     * After Route and Authorisation, the Theme/Page are parsed
+     * Before any parsing or rendering, after Execute
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function onBeforeRender()
+    {
+        return $this;
+    }
+
+    /**
+     * Before parsing of rendered_page to extract tokens for rendering
+     *  This is a recursive process - parse - render - parse - render - until no tokens found
+     *  exclude_tokens contains values that are not processed during this parsing
      *
      * @return  $this
      * @since   1.0
@@ -33,18 +46,18 @@ abstract class DisplayEventPlugin extends AbstractPlugin implements DisplayInter
     }
 
     /**
-     * After the body render is complete and before the document head rendering starts
+     * After parsing for tokens (recursive), parameters->tokens contains parsed results
      *
      * @return  $this
      * @since   1.0
      */
-    public function onBeforeParseHead()
+    public function onAfterParse()
     {
         return $this;
     }
 
     /**
-     * After the Read Query has executed but Before Query results are injected into the View
+     * After the Read Query has executed but rendering the view
      *
      * @return  $this
      * @since   1.0
@@ -55,7 +68,40 @@ abstract class DisplayEventPlugin extends AbstractPlugin implements DisplayInter
     }
 
     /**
-     * After the View has been rendered but before the output has been passed back to the Includer
+     * During Template View rendering, before the rendering of the Head
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function onBeforeRenderViewHead()
+    {
+        return $this;
+    }
+
+    /**
+     * During Template View rendering for each item
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function onBeforeRenderViewItem()
+    {
+        return $this;
+    }
+
+    /**
+     * During Template View rendering, before the rendering of the Footer
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function onBeforeRenderViewFooter()
+    {
+        return $this;
+    }
+
+    /**
+     * After the View has been rendered but before it has been inserted into the rendered_page
      *
      * @return  $this
      * @since   1.0
@@ -66,12 +112,12 @@ abstract class DisplayEventPlugin extends AbstractPlugin implements DisplayInter
     }
 
     /**
-     * On after parsing and rendering is complete
+     * On after rendering the entire document
      *
      * @return  $this
      * @since   1.0
      */
-    public function onAfterParse()
+    public function onAfterRender()
     {
         return $this;
     }

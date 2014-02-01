@@ -61,6 +61,7 @@ class EventServiceProvider extends AbstractServiceProvider implements ServicePro
         $this->dependencies['Url']           = $options;
         $this->dependencies['Language']      = $options;
         $this->dependencies['Authorisation'] = $options;
+        $this->dependencies['rendered_page'] = $options;
 
         if (isset($this->options['runtime_data'])) {
         } else {
@@ -137,6 +138,8 @@ class EventServiceProvider extends AbstractServiceProvider implements ServicePro
 
         if (isset($this->options['rendered_page'])) {
             $rendered_page = $this->options['rendered_page'];
+        } elseif (isset($this->dependencies['rendered_page'])) {
+            $rendered_page = $this->dependencies['rendered_page'];
         } else {
             $rendered_page = '';
         }

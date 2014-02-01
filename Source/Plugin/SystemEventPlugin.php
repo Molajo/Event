@@ -110,28 +110,6 @@ abstract class SystemEventPlugin extends AbstractPlugin implements SystemInterfa
     }
 
     /**
-     * Before Render Processing
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function onBeforeRender()
-    {
-        return $this;
-    }
-
-    /**
-     * After Render Processing
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function onAfterRender()
-    {
-        return $this;
-    }
-
-    /**
      * Before Response Processing
      *
      * @return  $this

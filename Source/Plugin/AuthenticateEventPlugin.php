@@ -26,7 +26,7 @@ abstract class AuthenticateEventPlugin extends AbstractPlugin implements Authent
      * @return  $this
      * @since   1.0
      */
-    public function onBeforeLogin()
+    public function onBeforeAuthenticate()
     {
         return $this;
     }
@@ -37,7 +37,7 @@ abstract class AuthenticateEventPlugin extends AbstractPlugin implements Authent
      * @return  $this
      * @since   1.0
      */
-    public function onAfterLogin()
+    public function onAfterAuthenticate()
     {
         return $this;
     }

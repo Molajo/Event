@@ -114,10 +114,10 @@
         "Molajo\\Plugin\\Googleanalytics\\GoogleanalyticsPlugin",
         "Molajo\\Plugin\\Messages\\MessagesPlugin"
     ],
-    "onBeforeLogin": [
+    "onBeforeAuthenticate": [
         "Molajo\\Plugin\\Login\\LoginPlugin"
     ],
-    "onAfterLogin": [
+    "onAfterAuthenticate": [
         "Molajo\\Plugin\\Login\\LoginPlugin"
     ],
     "onBeforeLogout": [

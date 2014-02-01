@@ -134,7 +134,7 @@ class EventDispatcher implements EventDispatcherInterface
         $collect = array();
 
         foreach ($return_items as $key) {
-
+//echo $key . '<br />';
             try {
                 $collect[$key] = $event->get($key);
 
