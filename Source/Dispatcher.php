@@ -71,7 +71,7 @@ class Dispatcher implements DispatcherInterface
      * @param   int      $priority 0 (lowest) to 100 (highest)
      *
      * @return  mixed
-     * @since   0.1
+     * @since   1.0
      */
     public function registerForEvent($event_name, $callback, $priority = 50)
     {
@@ -97,7 +97,7 @@ class Dispatcher implements DispatcherInterface
      * @param   EventInterface $event      CommonApi\Event\EventInterface
      *
      * @return  $this
-     * @since   0.1
+     * @since   1.0
      */
     public function scheduleEvent($event_name, EventInterface $event)
     {

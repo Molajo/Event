@@ -30,7 +30,7 @@ class EventDispatcher implements EventDispatcherInterface
      * @param   array          $listeners - array of callable anonymous functions
      *
      * @return  array
-     * @since   0.1
+     * @since   1.0
      */
     public function triggerListeners(EventInterface $event, array $listeners = array())
     {
@@ -134,7 +134,7 @@ class EventDispatcher implements EventDispatcherInterface
         $collect = array();
 
         foreach ($return_items as $key) {
-//echo $key . '<br />';
+
             try {
                 $collect[$key] = $event->get($key);
 

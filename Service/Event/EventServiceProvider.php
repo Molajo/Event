@@ -68,6 +68,11 @@ class EventServiceProvider extends AbstractServiceProvider implements ServicePro
             $this->dependencies['Runtimedata'] = $options;
         }
 
+        if (isset($this->options['plugin_data'])) {
+        } else {
+            $this->dependencies['Plugindata'] = $options;
+        }
+
         return $this->dependencies;
     }
 
@@ -98,6 +103,12 @@ class EventServiceProvider extends AbstractServiceProvider implements ServicePro
             $runtime_data = $this->options['runtime_data'];
         } else {
             $runtime_data = $this->dependencies['Runtimedata'];
+        }
+
+        if (isset($this->options['plugin_data'])) {
+            $plugin_data = $this->options['plugin_data'];
+        } else {
+            $plugin_data = $this->dependencies['Plugindata'];
         }
 
         if (isset($this->options['parameters'])) {
@@ -148,6 +159,7 @@ class EventServiceProvider extends AbstractServiceProvider implements ServicePro
 
         $return_items   = array();
         $return_items[] = 'runtime_data';
+        $return_items[] = 'plugin_data';
         $return_items[] = 'parameters';
         $return_items[] = 'query';
         $return_items[] = 'model_registry';
@@ -166,6 +178,7 @@ class EventServiceProvider extends AbstractServiceProvider implements ServicePro
         $data['language_controller']      = $language_controller;
         $data['authorisation_controller'] = $authorisation_controller;
         $data['runtime_data']             = $runtime_data;
+        $data['plugin_data']              = $plugin_data;
         $data['parameters']               = $parameters;
         $data['query']                    = $query;
         $data['model_registry']           = $model_registry;

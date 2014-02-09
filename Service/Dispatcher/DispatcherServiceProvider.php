@@ -86,42 +86,4 @@ class DispatcherServiceProvider extends AbstractServiceProvider implements Servi
 
         return $this;
     }
-
-    /**
-     * Read File
-     *
-     * @param  string $file_name
-     * @param  string $property_name_array
-     *
-     * @since  1.0
-     */
-    protected function readFile($file_name)
-    {
-        if (file_exists($file_name)) {
-        } else {
-            return array();
-        }
-
-        $input = file_get_contents($file_name);
-        $temp  = json_decode($input);
-
-        if (count($temp) > 0) {
-            $events = array();
-
-            foreach ($temp as $key => $classes) {
-
-                $functions = array();
-                foreach ($classes as $class) {
-                    $functions[] = $class;
-                }
-
-                sort($functions);
-                $events[$key] = $functions;
-            }
-        }
-
-        ksort($events);
-
-        return $events;
-    }
 }
