@@ -23,7 +23,9 @@
     },
     "autoload": {
         "psr-4": {
-            "Molajo\\Event\\": "Source/"
+            "Molajo\\Event\\": "Source/",
+            "Molajo\\Plugins\\": "Plugin/",
+            "Molajo\\Factories\\": "Factories/"
         }
     },
 

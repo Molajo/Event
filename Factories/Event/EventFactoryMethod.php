@@ -1,28 +1,29 @@
 <?php
 /**
- * Event Service Provider
+ * Event Factory Method
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\Service\Event;
+namespace Molajo\Factories\Event;
 
-use stdClass;
 use Exception;
-use Molajo\IoC\AbstractServiceProvider;
 use CommonApi\Exception\RuntimeException;
-use CommonApi\IoC\ServiceProviderInterface;
+use CommonApi\IoC\FactoryMethodInterface;
+use CommonApi\IoC\FactoryMethodBatchSchedulingInterface;
+use Molajo\IoC\FactoryBase;
+use stdClass;
 
 /**
- * Event Service Provider
+ * Event Factory Method
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class EventServiceProvider extends AbstractServiceProvider implements ServiceProviderInterface
+class EventFactoryMethod extends FactoryBase implements FactoryMethodInterface, FactoryMethodBatchSchedulingInterface
 {
     /**
      * Constructor
@@ -33,14 +34,14 @@ class EventServiceProvider extends AbstractServiceProvider implements ServicePro
      */
     public function __construct(array $options = array())
     {
-        $options['service_namespace'] = 'Molajo\\Event\\Event';
-        $options['service_name']      = basename(__DIR__);
+        $options['product_namespace'] = 'Molajo\\Event\\Event';
+        $options['product_name']      = basename(__DIR__);
 
         parent::__construct($options);
     }
 
     /**
-     * Instantiate a new handler and inject it into the Adapter for the ServiceProviderInterface
+     * Instantiate a new handler and inject it into the Adapter for the FactoryMethodInterface
      * Retrieve a list of Interface dependencies and return the data ot the controller.
      *
      * @return  array
@@ -83,13 +84,13 @@ class EventServiceProvider extends AbstractServiceProvider implements ServicePro
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException;
      */
-    public function instantiateService()
+    public function instantiateClass()
     {
         if (isset($this->options['event_name'])) {
             $event_name = $this->options['event_name'];
         } else {
             throw new RuntimeException
-            ('EventServiceProvider: Event name not provided');
+            ('EventFactoryMethod: Event name not provided');
         }
 
         $resource                 = $this->dependencies['Resource'];
@@ -188,7 +189,7 @@ class EventServiceProvider extends AbstractServiceProvider implements ServicePro
         $data['rendered_page']            = $rendered_page;
 
         try {
-            $this->service_instance = new $class(
+            $this->product_result = new $class(
                 $event_name,
                 $return_items,
                 $data

@@ -1,27 +1,28 @@
 <?php
 /**
- * Event Dispatcher Service Provider
+ * Event Dispatcher Factory Method
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\Service\Dispatcher;
+namespace Molajo\Factories\Dispatcher;
 
 use Exception;
 use CommonApi\Exception\RuntimeException;
-use CommonApi\IoC\ServiceProviderInterface;
-use Molajo\IoC\AbstractServiceProvider;
+use CommonApi\IoC\FactoryMethodInterface;
+use CommonApi\IoC\FactoryMethodBatchSchedulingInterface;
+use Molajo\IoC\FactoryBase;
 
 /**
- * Event Dispatcher Service Provider
+ * Event Dispatcher Factory Method
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class DispatcherServiceProvider extends AbstractServiceProvider implements ServiceProviderInterface
+class DispatcherFactoryMethod extends FactoryBase implements FactoryMethodInterface, FactoryMethodBatchSchedulingInterface
 {
     /**
      * Constructor
@@ -32,15 +33,15 @@ class DispatcherServiceProvider extends AbstractServiceProvider implements Servi
      */
     public function __construct(array $options = array())
     {
-        $options['service_namespace']        = 'Molajo\\Event\\Dispatcher';
+        $options['product_namespace']        = 'Molajo\\Event\\Dispatcher';
         $options['store_instance_indicator'] = true;
-        $options['service_name']             = basename(__DIR__);
+        $options['product_name']             = basename(__DIR__);
 
         parent::__construct($options);
     }
 
     /**
-     * Define Dependencies for the Service
+     * Define dependencies or use dependencies automatically defined by base class using Reflection
      *
      * @return  array
      * @since   1.0
@@ -62,19 +63,19 @@ class DispatcherServiceProvider extends AbstractServiceProvider implements Servi
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException;
      */
-    public function instantiateService()
+    public function instantiateClass()
     {
         $class            = 'Molajo\\Event\\EventDispatcher';
         $event_dispatcher = new $class();
 
         $callback_events = $this->readFile(
-            BASE_FOLDER . '/vendor/molajo/resource/Source/Files/Output/Events.json'
+            $this->options['base_path'] . '/Bootstrap/Files/Output/Events.json'
         );
 
         $class = 'Molajo\\Event\\Dispatcher';
 
         try {
-            $this->service_instance = new $class(
+            $this->product_result = new $class(
                 $event_dispatcher,
                 $callback_events
             );

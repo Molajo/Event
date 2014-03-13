@@ -1,54 +1,65 @@
 <?php
 /**
- * Read Event Plugin
+ * Authenticate Event Plugin
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\Plugin;
+namespace Molajo\Plugins;
 
-use CommonApi\Event\ReadInterface;
+use CommonApi\Event\AuthenticateInterface;
 
 /**
- * Read Event Plugin
+ * Authenticate Event Plugin
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-abstract class ReadEventPlugin extends AbstractPlugin implements ReadInterface
+abstract class AuthenticateEventPlugin extends AbstractPlugin implements AuthenticateInterface
 {
     /**
-     * Pre-read processing
+     * Before logging in processing
      *
      * @return  $this
      * @since   1.0
      */
-    public function onBeforeRead()
+    public function onBeforeAuthenticate()
     {
         return $this;
     }
 
     /**
-     * Post-read processing - one row at a time
+     * After Logging in event
      *
      * @return  $this
      * @since   1.0
      */
-    public function onAfterRead()
+    public function onAfterAuthenticate()
     {
         return $this;
     }
 
     /**
-     * Post-read processing - all rows at one time from query_results
+     * Before logging out processing
      *
      * @return  $this
      * @since   1.0
      */
-    public function onAfterReadall()
+    public function onBeforeLogout()
+    {
+        return $this;
+    }
+
+    /**
+     * After Logging out event
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function onAfterLogout()
     {
         return $this;
     }
