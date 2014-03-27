@@ -1,6 +1,6 @@
 <?php
 /**
- * Event Schedule
+ * Scheduled Event
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -12,14 +12,14 @@ use CommonApi\Event\EventInterface;
 use CommonApi\Exception\InvalidArgumentException;
 
 /**
- * Event Schedule
+ * Scheduled Event
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class Event implements EventInterface
+class Scheduled implements EventInterface
 {
     /**
      * Event Name

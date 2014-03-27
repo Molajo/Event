@@ -43,7 +43,7 @@ class EventDispatcher implements EventDispatcherInterface
         $event_name     = $event->get('event_name');
         $model_registry = $event->get('model_registry');
 
-//echo 'in EventDIspatcher ' . $event_name;
+//echo '<br><br>in EventDispatcher ' . $event_name;
 
         if (is_array($model_registry)
             && isset($model_registry['plugins'])
@@ -83,7 +83,7 @@ class EventDispatcher implements EventDispatcherInterface
             /** Event Class */
             try {
 
-///                echo $listener . ' ' . $event->get('event_name') . '<br />';
+//echo $listener . ' ' . $event->get('event_name') . '<br />';
 
                 $instance = new $listener(
                     $event->get('event_name'),

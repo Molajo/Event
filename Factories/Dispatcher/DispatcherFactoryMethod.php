@@ -10,9 +10,9 @@ namespace Molajo\Factories\Dispatcher;
 
 use Exception;
 use CommonApi\Exception\RuntimeException;
-use CommonApi\IoC\FactoryMethodInterface;
-use CommonApi\IoC\FactoryMethodBatchSchedulingInterface;
-use Molajo\IoC\FactoryBase;
+use CommonApi\IoC\FactoryInterface;
+use CommonApi\IoC\FactoryBatchInterface;
+use Molajo\IoC\FactoryMethodBase;
 
 /**
  * Event Dispatcher Factory Method
@@ -22,7 +22,7 @@ use Molajo\IoC\FactoryBase;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class DispatcherFactoryMethod extends FactoryBase implements FactoryMethodInterface, FactoryMethodBatchSchedulingInterface
+class DispatcherFactoryMethod extends FactoryMethodBase implements FactoryInterface, FactoryBatchInterface
 {
     /**
      * Constructor

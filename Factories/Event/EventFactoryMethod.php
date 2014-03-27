@@ -10,9 +10,9 @@ namespace Molajo\Factories\Event;
 
 use Exception;
 use CommonApi\Exception\RuntimeException;
-use CommonApi\IoC\FactoryMethodInterface;
-use CommonApi\IoC\FactoryMethodBatchSchedulingInterface;
-use Molajo\IoC\FactoryBase;
+use CommonApi\IoC\FactoryInterface;
+use CommonApi\IoC\FactoryBatchInterface;
+use Molajo\IoC\FactoryMethodBase;
 use stdClass;
 
 /**
@@ -23,7 +23,7 @@ use stdClass;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class EventFactoryMethod extends FactoryBase implements FactoryMethodInterface, FactoryMethodBatchSchedulingInterface
+class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, FactoryBatchInterface
 {
     /**
      * Constructor
@@ -34,15 +34,14 @@ class EventFactoryMethod extends FactoryBase implements FactoryMethodInterface, 
      */
     public function __construct(array $options = array())
     {
-        $options['product_namespace'] = 'Molajo\\Event\\Event';
+        $options['product_namespace'] = 'Molajo\\Event\\Scheduled';
         $options['product_name']      = basename(__DIR__);
 
         parent::__construct($options);
     }
 
     /**
-     * Instantiate a new handler and inject it into the Adapter for the FactoryMethodInterface
-     * Retrieve a list of Interface dependencies and return the data ot the controller.
+     * Set dependencies
      *
      * @return  array
      * @since   1.0
@@ -156,7 +155,7 @@ class EventFactoryMethod extends FactoryBase implements FactoryMethodInterface, 
             $rendered_page = '';
         }
 
-        $class = 'Molajo\\Event\\Event';
+        $class = $this->product_namespace;
 
         $return_items   = array();
         $return_items[] = 'runtime_data';
@@ -197,7 +196,7 @@ class EventFactoryMethod extends FactoryBase implements FactoryMethodInterface, 
 
         } catch (Exception $e) {
             throw new RuntimeException
-            ('Render: Could not instantiate Handler: ' . $class);
+            ('Event Factory: Could not instantiate Event Schedule: ' . $class);
         }
 
         return $this;
