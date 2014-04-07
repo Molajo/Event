@@ -22,17 +22,6 @@ use CommonApi\Exception\RuntimeException;
 abstract class SystemEventPlugin extends AbstractPlugin implements SystemInterface
 {
     /**
-     * Before Initialise Processing
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function onBeforeInitialise()
-    {
-        return $this;
-    }
-
-    /**
      * After Initialise Processing
      *
      * @return  $this
@@ -61,6 +50,28 @@ abstract class SystemEventPlugin extends AbstractPlugin implements SystemInterfa
      * @since   1.0
      */
     public function onAfterRoute()
+    {
+        return $this;
+    }
+
+    /**
+     * Before Resource Processing
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function onBeforeResource()
+    {
+        return $this;
+    }
+
+    /**
+     * After Resource Processing
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function onAfterResource()
     {
         return $this;
     }

@@ -45,7 +45,7 @@ class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
      *
      * @return  array
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function setDependencies(array $reflection = null)
     {
@@ -81,7 +81,7 @@ class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
      *
      * @return  $this
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function instantiateClass()
     {

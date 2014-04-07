@@ -45,7 +45,7 @@ class DispatcherFactoryMethod extends FactoryMethodBase implements FactoryInterf
      *
      * @return  array
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function setDependencies(array $reflection = null)
     {
@@ -61,7 +61,7 @@ class DispatcherFactoryMethod extends FactoryMethodBase implements FactoryInterf
      *
      * @return  $this
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function instantiateClass()
     {
