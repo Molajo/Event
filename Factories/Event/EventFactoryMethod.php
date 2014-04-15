@@ -21,7 +21,7 @@ use stdClass;
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
- * @since      1.0
+ * @since      1.0.0
  */
 class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, FactoryBatchInterface
 {
@@ -57,10 +57,10 @@ class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
 
         $this->dependencies['Resource']      = $options;
         $this->dependencies['Fieldhandler']  = $options;
-        $this->dependencies['Date']          = $options;
-        $this->dependencies['Url']           = $options;
-        $this->dependencies['Language']      = $options;
-        $this->dependencies['Authorisation'] = $options;
+        $this->dependencies['Date']          = array('if_exists' => true);
+        $this->dependencies['Url']           = array('if_exists' => true);
+        $this->dependencies['Language']      = array('if_exists' => true);
+        $this->dependencies['Authorisation'] = array('if_exists' => true);
         $this->dependencies['rendered_page'] = $options;
 
         if (isset($this->options['runtime_data'])) {

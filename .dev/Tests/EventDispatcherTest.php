@@ -18,7 +18,7 @@ use PHPUnit_Framework_TestCase;
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @since      1.0
+ * @since      1.0.0
  */
 class EventDispatcherTest extends PHPUnit_Framework_TestCase
 {
@@ -111,7 +111,7 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @since      1.0
+ * @since      1.0.0
  */
 class ListenerZ
 {
