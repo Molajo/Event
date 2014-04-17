@@ -157,19 +157,6 @@ class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
 
         $class = $this->product_namespace;
 
-        $return_items   = array();
-        $return_items[] = 'runtime_data';
-        $return_items[] = 'plugin_data';
-        $return_items[] = 'parameters';
-        $return_items[] = 'query';
-        $return_items[] = 'model_registry';
-        $return_items[] = 'query_results';
-        $return_items[] = 'row';
-        $return_items[] = 'rendered_view';
-        $return_items[] = 'rendered_page';
-
-        $this->options['return_items'] = $return_items;
-
         $data                             = array();
         $data['resource']                 = $resource;
         $data['fieldhandler']             = $fieldhandler;
@@ -190,7 +177,7 @@ class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
         try {
             $this->product_result = new $class(
                 $event_name,
-                $return_items,
+                $this->dependencies['Runtimedata']->event_options_keys,
                 $data
             );
 
