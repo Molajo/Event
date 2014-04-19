@@ -34,13 +34,30 @@ class EventDispatcher implements EventDispatcherInterface
      */
     public function triggerListeners(EventInterface $event, array $listeners = array())
     {
-        $return_items = $event->get('return_items');
+        // we lose return_items on the first onAfterRead;
+
+//        $return_items = $event->get('return_items');
+
+        $return_items = array();
+        $return_items[] = 'runtime_data';
+        $return_items[] = 'plugin_data';
+        $return_items[] = 'parameters';
+        $return_items[] = 'query';
+        $return_items[] = 'model_registry';
+        $return_items[] = 'query_results';
+        $return_items[] = 'row';
+        $return_items[] = 'rendered_view';
+        $return_items[] = 'rendered_page';
+
+        $this->getData($event);
 
         if (count($listeners) === 0) {
             return $this->getData($event);
         }
 
         $event_name     = $event->get('event_name');
+//echo 'Event Name: ' . $event_name . '<br />';
+
         $model_registry = $event->get('model_registry');
 
 //echo '<br><br>in EventDispatcher ' . $event_name;
@@ -83,7 +100,7 @@ class EventDispatcher implements EventDispatcherInterface
             /** Event Class */
             try {
 
-//echo $listener . ' ' . $event->get('event_name') . '<br />';
+//echo 'Listener: ' . $listener . ' ' . $event->get('event_name') . '<br />';
 
                 $instance = new $listener(
                     $event->get('event_name'),
@@ -128,6 +145,17 @@ class EventDispatcher implements EventDispatcherInterface
     protected function getData(EventInterface $event)
     {
         $return_items = $event->get('return_items');
+
+        $return_items = array();
+        $return_items[] = 'runtime_data';
+        $return_items[] = 'plugin_data';
+        $return_items[] = 'parameters';
+        $return_items[] = 'query';
+        $return_items[] = 'model_registry';
+        $return_items[] = 'query_results';
+        $return_items[] = 'row';
+        $return_items[] = 'rendered_view';
+        $return_items[] = 'rendered_page';
 
         if (count($return_items) === 0) {
             return array();
