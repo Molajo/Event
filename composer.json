@@ -25,8 +25,7 @@
         "psr-4": {
             "Molajo\\Event\\": "Source/",
             "Molajo\\Plugins\\": "Plugins/",
-            "Molajo\\Factories\\Dispatcher\\": "Factories/Dispatcher/",
-            "Molajo\\Factories\\Event\\": "Factories/Event/"
+            "Molajo\\Factories\\": "Factories/"
         }
     },
 
