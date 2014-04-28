@@ -13,7 +13,6 @@
         }
     ],
     "require": {
-        "php": ">=5.4",
         "commonapi/event": "dev-master",
         "commonapi/exception": "dev-master"
     },
