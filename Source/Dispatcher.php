@@ -43,8 +43,7 @@ class Dispatcher implements DispatcherInterface
      *
      * @param  EventDispatcherInterface $event_dispatcher
      *
-     *
-     * @since 1.0
+     * @since  1.0
      */
     public function __construct(
         EventDispatcherInterface $event_dispatcher,
@@ -53,17 +52,51 @@ class Dispatcher implements DispatcherInterface
         $this->event_dispatcher = $event_dispatcher;
 
         if (count($callback_events) > 0) {
+            $this->registerCallbackEvents($callback_events);
+        }
+    }
 
-            $this->callback_events = $callback_events;
+    /**
+     * Requester Schedules Event with Dispatcher
+     *
+     * @param   string         $event_name
+     * @param   EventInterface $event
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function scheduleEvent($event_name, EventInterface $event)
+    {
+        if (isset($this->callback_events[$event_name])) {
+            $listeners = $this->sortEventListenersByPriority($event_name);
 
-            foreach ($callback_events as $event_name => $listeners) {
-                if (count($listeners) > 0) {
-                    foreach ($listeners as $listener) {
-                        $this->registerForEvent($event_name, $listener, 50);
-                    }
-                }
+            return $this->event_dispatcher->triggerListeners($event, $listeners);
+        }
+
+        return array();
+    }
+
+    /**
+     * Sort Listeners by Priority
+     *
+     * @param   string $event_name
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function sortEventListenersByPriority($event_name)
+    {
+        $priorities = $this->callback_events[$event_name];
+        krsort($priorities);
+
+        $listeners = array();
+        foreach ($priorities as $priority => $callbacks) {
+            foreach ($callbacks as $callback) {
+                $listeners[] = $callback;
             }
         }
+
+        return $listeners;
     }
 
     /**
@@ -79,16 +112,20 @@ class Dispatcher implements DispatcherInterface
     public function registerForEvent($event_name, $callback, $priority = 50)
     {
         if (isset($this->callback_events[$event_name])) {
-            $listeners = $this->callback_events[$event_name];
+            $priorities = $this->callback_events[$event_name];
         } else {
-            $listeners = array();
+            $priorities = array();
         }
 
-        $listeners[] = $callback;
-        $unique      = array_unique($listeners);
-        sort($unique);
+        if (isset($priorities[$priority])) {
+            $callback_array = $priorities[$priority];
+        } else {
+            $callback_array = array();
+        }
 
-        $this->callback_events[$event_name] = $unique;
+        $callback_array[]                   = $callback;
+        $priorities[]                       = $callback_array;
+        $this->callback_events[$event_name] = $priorities;
 
         return $this;
     }
@@ -96,19 +133,41 @@ class Dispatcher implements DispatcherInterface
     /**
      * Requester Schedules Event with Dispatcher
      *
-     * @param   string         $event_name
-     * @param   EventInterface $event      CommonApi\Event\EventInterface
+     * @param   array $callback_events
      *
      * @return  $this
      * @since   1.0
      */
-    public function scheduleEvent($event_name, EventInterface $event)
+    protected function registerCallbackEvents(array $callback_events = array())
     {
-        if (isset($this->callback_events[$event_name])) {
-            $listeners = $this->callback_events[$event_name];
-            return $this->event_dispatcher->triggerListeners($event, $listeners);
+        foreach ($callback_events as $event_name => $priorities) {
+            if (count($priorities) > 0) {
+                $this->registerEventListeners($event_name, $priorities);
+            }
         }
 
-        return array();
+        return $this;
+    }
+
+    /**
+     * Requester Schedules Event with Dispatcher
+     *
+     * @param   string $event_name
+     * @param   array  $callback_events
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function registerEventListeners($event_name, array $callback_events = array())
+    {
+        foreach ($callback_events as $priority => $callbacks) {
+            if (count($callbacks) > 0) {
+                foreach ($callbacks as $callback) {
+                    $this->registerForEvent($event_name, $callback, $priority);
+                }
+            }
+        }
+
+        return $this;
     }
 }
