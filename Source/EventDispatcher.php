@@ -27,27 +27,14 @@ class EventDispatcher implements EventDispatcherInterface
      * Event Dispatcher triggers Listeners
      *
      * @param   EventInterface $event
-     * @param   array          $listeners - array of callable anonymous functions
+     * @param   array          $listeners - array of callable functions
      *
      * @return  array
      * @since   1.0
      */
     public function triggerListeners(EventInterface $event, array $listeners = array())
     {
-        // we lose return_items on the first onAfterRead;
-
-//        $return_items = $event->get('return_items');
-
-        $return_items = array();
-        $return_items[] = 'runtime_data';
-        $return_items[] = 'plugin_data';
-        $return_items[] = 'parameters';
-        $return_items[] = 'query';
-        $return_items[] = 'model_registry';
-        $return_items[] = 'query_results';
-        $return_items[] = 'row';
-        $return_items[] = 'rendered_view';
-        $return_items[] = 'rendered_page';
+        $return_items = $event->get('return_items');
 
         $this->getData($event);
 
@@ -56,11 +43,7 @@ class EventDispatcher implements EventDispatcherInterface
         }
 
         $event_name     = $event->get('event_name');
-//echo 'Event Name: ' . $event_name . '<br />';
-
         $model_registry = $event->get('model_registry');
-
-//echo '<br><br>in EventDispatcher ' . $event_name;
 
         if (is_array($model_registry)
             && isset($model_registry['plugins'])

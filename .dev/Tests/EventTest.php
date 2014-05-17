@@ -45,7 +45,8 @@ class EventTest extends PHPUnit_Framework_TestCase
      * Test Get Method
      *
      * @covers  Molajo\Event\Event::get
-     * @return void
+     *
+     * @return  void
      * @since   1.0
      */
     public function testGet()
@@ -67,7 +68,8 @@ class EventTest extends PHPUnit_Framework_TestCase
      * Test Get Method
      *
      * @covers  Molajo\Event\Event::set
-     * @return void
+     *
+     * @return  void
      * @since   1.0
      */
     public function testSet()
@@ -89,6 +91,7 @@ class EventTest extends PHPUnit_Framework_TestCase
      * Test Get Exception
      *
      * @covers  Molajo\Event\Event::get
+     *
      * @expectedException \CommonApi\Exception\InvalidArgumentException
      * @return  void
      * @since   1.0
@@ -110,6 +113,7 @@ class EventTest extends PHPUnit_Framework_TestCase
      * Test Get Exception
      *
      * @covers  Molajo\Event\Event::get
+     *
      * @expectedException \CommonApi\Exception\InvalidArgumentException
      * @return  void
      * @since   1.0
@@ -125,16 +129,5 @@ class EventTest extends PHPUnit_Framework_TestCase
         $this->event->set('key_does_not_exist', 3);
 
         return;
-    }
-
-    /**
-     * Tear down
-     *
-     * @return void
-     * @since   1.0
-     */
-    protected function tearDown()
-    {
-        parent::tearDown();
     }
 }

@@ -43,6 +43,7 @@ class Dispatcher implements DispatcherInterface
      *
      * @param  EventDispatcherInterface $event_dispatcher
      *
+     *
      * @since 1.0
      */
     public function __construct(
@@ -52,7 +53,9 @@ class Dispatcher implements DispatcherInterface
         $this->event_dispatcher = $event_dispatcher;
 
         if (count($callback_events) > 0) {
+
             $this->callback_events = $callback_events;
+
             foreach ($callback_events as $event_name => $listeners) {
                 if (count($listeners) > 0) {
                     foreach ($listeners as $listener) {

@@ -32,8 +32,6 @@ class Scheduled implements EventInterface
     /**
      * Return Items
      *
-     * List of data items to be returned to the scheduling process
-     *
      * @var    array
      * @since  1.0
      */
@@ -42,12 +40,18 @@ class Scheduled implements EventInterface
     /**
      * Data
      *
-     * Array of properties
-     *
      * @var    array
      * @since  1.0
      */
     protected $data = array();
+
+    /**
+     * Class Properties
+     *
+     * @var    array
+     * @since  1.0
+     */
+    protected $properties = array('event_name', 'return_items', 'data');
 
     /**
      * Constructor
@@ -74,28 +78,22 @@ class Scheduled implements EventInterface
      * @param    $key
      *
      * @return   mixed
-     * @since    0.1
+     * @since    1.0.0
      * @throws   \CommonApi\Exception\InvalidArgumentException
      */
     public function get($key)
     {
         $key = strtolower($key);
 
-        if ($key == 'event_name') {
-            return $this->event_name;
+        if (in_array($key, $this->properties)) {
+            return $this->$key;
+        }
 
-        } elseif ($key == 'return_items') {
-            return $this->return_items;
-
-        } elseif ($key == 'data') {
-            return $this->data;
-
-        } elseif (isset($this->data[$key])) {
+        if (isset($this->data[$key])) {
             return $this->data[$key];
         }
 
-        throw new InvalidArgumentException
-        ('Event: Invalid Get Key: ' . $key);
+        throw new InvalidArgumentException('Event: Invalid Get Key: ' . $key);
     }
 
     /**
@@ -105,24 +103,23 @@ class Scheduled implements EventInterface
      * @param    mixed  $value
      *
      * @return   $this
-     * @since    0.1
+     * @since    1.0.0
      * @throws   \CommonApi\Exception\InvalidArgumentException
      */
     public function set($key, $value)
     {
         $key = strtolower($key);
 
-        if ($key == 'event_name') {
-            $this->event_name = $value;
-
-        } elseif (isset($this->data[$key])) {
-            $this->data[$key] = $value;
-
-        } else {
-            throw new InvalidArgumentException
-            ('Event: Invalid Set Key: ' . $key);
+        if (in_array($key, $this->properties)) {
+            $this->$key = $value;
+            return $this;
         }
 
-        return $this;
+        if (isset($this->data[$key])) {
+            $this->data[$key] = $value;
+            return $this;
+        }
+
+        throw new InvalidArgumentException('Event: Invalid Set Key: ' . $key);
     }
 }
