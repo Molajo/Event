@@ -8,7 +8,7 @@
  */
 namespace Molajo\Event;
 
-use Molajo\Event\Event;
+use Molajo\Event\Scheduled;
 use CommonApi\Event\EventInterface;
 use CommonApi\Event\DispatcherInterface;
 use CommonApi\Event\EventDispatcherInterface;
@@ -62,7 +62,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
     /**
      * Test Get Method
      *
-     * @covers  Molajo\Event\Event::get
+     * @covers  Molajo\Event\Scheduled::get
      * @return void
      * @since   1.0
      */

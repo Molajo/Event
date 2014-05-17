@@ -8,8 +8,8 @@
  */
 namespace Molajo\Event;
 
-use Molajo\Event\Event;
-use Molajo\Event\EventDispatcher;
+use Molajo\Event\Scheduled;
+use Molajo\Event\ScheduledDispatcher;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -52,7 +52,7 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase
     /**
      * Test Get Method
      *
-     * @covers  Molajo\Event\Event::get
+     * @covers  Molajo\Event\Scheduled::get
      * @return void
      * @since   1.0
      */

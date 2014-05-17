@@ -1,6 +1,6 @@
 <?php
 /**
- * Event Test
+ * Scheduled Event Test
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
@@ -8,27 +8,27 @@
  */
 namespace Molajo\Event\Tests;
 
-use Molajo\Event\Event;
+use Molajo\Event\Scheduled;
 use CommonApi\Event\EventInterface;
 use PHPUnit_Framework_TestCase;
 
 /**
- * Accepted Event
+ * Scheduled Event Test
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0.0
  */
-class EventTest extends PHPUnit_Framework_TestCase
+class ScheduledTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Event Instance
+     * Scheduled Event Instance
      *
      * @var    object  CommonApi\Event\EventInterface
      * @since  1.0
      */
-    protected $event;
+    protected $scheduled;
 
     /**
      * Set up
@@ -38,28 +38,32 @@ class EventTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $event_name = null;
+        $return_items = array();
+        $data = array();
 
+        $this->scheduled = new Scheduled($event_name, $return_items, $data);
     }
 
     /**
      * Test Get Method
      *
-     * @covers  Molajo\Event\Event::get
+     * @covers  Molajo\Event\Scheduled::get
      *
      * @return  void
      * @since   1.0
      */
     public function testGet()
     {
-        $event_name   = 'Test';
+        $scheduled_name   = 'Test';
         $return_items = array('data1', 'data2');
         $data         = array('data1' => 1, 'data2' => 2, 'data3' => 3);
 
-        $this->event = new Event($event_name, $return_items, $data);
+        $this->scheduled = new Scheduled($scheduled_name, $return_items, $data);
 
-        $this->assertEquals($event_name, $this->event->get('event_name'));
-        $this->assertEquals($return_items, $this->event->get('return_items'));
-        $this->assertEquals($data, $this->event->get('data'));
+        $this->assertEquals($scheduled_name, $this->scheduled->get('event_name'));
+        $this->assertEquals($return_items, $this->scheduled->get('return_items'));
+        $this->assertEquals($data, $this->scheduled->get('data'));
 
         return;
     }
@@ -67,22 +71,22 @@ class EventTest extends PHPUnit_Framework_TestCase
     /**
      * Test Get Method
      *
-     * @covers  Molajo\Event\Event::set
+     * @covers  Molajo\Event\Scheduled::set
      *
      * @return  void
      * @since   1.0
      */
     public function testSet()
     {
-        $event_name   = 'Test';
+        $scheduled_name   = 'Test';
         $return_items = array('data1', 'data2');
         $data         = array('data1' => 1, 'data2' => 2, 'data3' => 3);
 
-        $this->event = new Event($event_name, $return_items, $data);
+        $this->scheduled = new Scheduled($scheduled_name, $return_items, $data);
 
-        $this->event->set('event_name', 'NewName');
+        $this->scheduled->set('event_name', 'NewName');
 
-        $this->assertEquals('NewName', $this->event->get('event_name'));
+        $this->assertEquals('NewName', $this->scheduled->get('event_name'));
 
         return;
     }
@@ -90,7 +94,7 @@ class EventTest extends PHPUnit_Framework_TestCase
     /**
      * Test Get Exception
      *
-     * @covers  Molajo\Event\Event::get
+     * @covers  Molajo\Event\Scheduled::get
      *
      * @expectedException \CommonApi\Exception\InvalidArgumentException
      * @return  void
@@ -98,13 +102,13 @@ class EventTest extends PHPUnit_Framework_TestCase
      */
     public function testInvalidGetKey()
     {
-        $event_name   = 'Test';
+        $scheduled_name   = 'Test';
         $return_items = array('data1', 'data2');
         $data         = array('data1' => 1, 'data2' => 2, 'data3' => 3);
 
-        $this->event = new Event($event_name, $return_items, $data);
+        $this->scheduled = new Scheduled($scheduled_name, $return_items, $data);
 
-        $this->event->get('key_does_not_exist');
+        $this->scheduled->get('key_does_not_exist');
 
         return;
     }
@@ -112,7 +116,7 @@ class EventTest extends PHPUnit_Framework_TestCase
     /**
      * Test Get Exception
      *
-     * @covers  Molajo\Event\Event::get
+     * @covers  Molajo\Event\Scheduled::get
      *
      * @expectedException \CommonApi\Exception\InvalidArgumentException
      * @return  void
@@ -120,13 +124,13 @@ class EventTest extends PHPUnit_Framework_TestCase
      */
     public function testInvalidSetKey()
     {
-        $event_name   = 'Test';
+        $scheduled_name   = 'Test';
         $return_items = array('data1', 'data2');
         $data         = array('data1' => 1, 'data2' => 2, 'data3' => 3);
 
-        $this->event = new Event($event_name, $return_items, $data);
+        $this->scheduled = new Scheduled($scheduled_name, $return_items, $data);
 
-        $this->event->set('key_does_not_exist', 3);
+        $this->scheduled->set('key_does_not_exist', 3);
 
         return;
     }
