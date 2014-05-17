@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1400358287">
-  <project timestamp="1400358287">
+<coverage generated="1400358907">
+  <project timestamp="1400358907">
     <package name="Molajo\Factories\Dispatcher">
       <file name="/Users/amystephen/Sites/Molajo/Event/Factories/Dispatcher/DispatcherFactoryMethod.php">
         <class name="DispatcherFactoryMethod" namespace="Molajo\Factories\Dispatcher">
@@ -493,31 +493,31 @@
       </file>
       <file name="/Users/amystephen/Sites/Molajo/Event/Source/Scheduled.php">
         <class name="Scheduled" namespace="Molajo\Event">
-          <metrics methods="3" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="9" elements="21" coveredelements="11"/>
+          <metrics methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="18" elements="21" coveredelements="21"/>
         </class>
-        <line num="65" type="method" name="__construct" crap="2" count="0"/>
-        <line num="70" type="stmt" count="0"/>
-        <line num="71" type="stmt" count="0"/>
-        <line num="72" type="stmt" count="0"/>
-        <line num="73" type="stmt" count="0"/>
-        <line num="84" type="method" name="get" crap="3.04" count="2"/>
-        <line num="86" type="stmt" count="2"/>
-        <line num="88" type="stmt" count="2"/>
+        <line num="65" type="method" name="__construct" crap="1" count="6"/>
+        <line num="70" type="stmt" count="6"/>
+        <line num="71" type="stmt" count="6"/>
+        <line num="72" type="stmt" count="6"/>
+        <line num="73" type="stmt" count="6"/>
+        <line num="84" type="method" name="get" crap="3" count="3"/>
+        <line num="86" type="stmt" count="3"/>
+        <line num="88" type="stmt" count="3"/>
         <line num="89" type="stmt" count="1"/>
-        <line num="92" type="stmt" count="1"/>
-        <line num="93" type="stmt" count="0"/>
+        <line num="92" type="stmt" count="2"/>
+        <line num="93" type="stmt" count="1"/>
         <line num="96" type="stmt" count="1"/>
-        <line num="109" type="method" name="set" crap="4.12" count="1"/>
-        <line num="111" type="stmt" count="1"/>
-        <line num="113" type="stmt" count="1"/>
+        <line num="109" type="method" name="set" crap="3" count="3"/>
+        <line num="111" type="stmt" count="3"/>
+        <line num="113" type="stmt" count="3"/>
         <line num="114" type="stmt" count="1"/>
         <line num="115" type="stmt" count="1"/>
-        <line num="118" type="stmt" count="0"/>
-        <line num="119" type="stmt" count="0"/>
-        <line num="120" type="stmt" count="0"/>
-        <line num="123" type="stmt" count="0"/>
+        <line num="118" type="stmt" count="2"/>
+        <line num="119" type="stmt" count="1"/>
+        <line num="120" type="stmt" count="1"/>
+        <line num="123" type="stmt" count="1"/>
         <line num="126" type="stmt" count="0"/>
-        <metrics loc="125" ncloc="58" classes="1" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="9" elements="21" coveredelements="9"/>
+        <metrics loc="125" ncloc="58" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="18" elements="21" coveredelements="21"/>
       </file>
     </package>
     <file name="/Users/amystephen/Sites/Molajo/Event/vendor/autoload.php">
@@ -984,6 +984,6 @@
       <line num="53" type="stmt" count="0"/>
       <metrics loc="53" ncloc="51" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="0" elements="29" coveredelements="0"/>
     </file>
-    <metrics files="44" loc="2989" ncloc="1399" classes="28" methods="95" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="726" coveredstatements="9" elements="821" coveredelements="9"/>
+    <metrics files="44" loc="2989" ncloc="1399" classes="28" methods="95" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="726" coveredstatements="18" elements="821" coveredelements="21"/>
   </project>
 </coverage>
