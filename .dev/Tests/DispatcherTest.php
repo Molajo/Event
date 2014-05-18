@@ -28,6 +28,13 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      * Test Get Method
      *
      * @covers  Molajo\Event\Dispatcher::__construct
+     * @covers  Molajo\Event\Dispatcher::scheduleEvent
+     * @covers  Molajo\Event\Dispatcher::sortEventListenersByPriority
+     * @covers  Molajo\Event\Dispatcher::registerForEvent
+     *
+     * @covers  Molajo\Event\Scheduled::__construct
+     * @covers  Molajo\Event\Scheduled::get
+     * @covers  Molajo\Event\Scheduled::set
      *
      * @return void
      * @since   1.0
@@ -83,6 +90,13 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      * Test Get Method
      *
      * @covers  Molajo\Event\Dispatcher::__construct
+     * @covers  Molajo\Event\Dispatcher::scheduleEvent
+     * @covers  Molajo\Event\Dispatcher::sortEventListenersByPriority
+     * @covers  Molajo\Event\Dispatcher::registerForEvent
+     *
+     * @covers  Molajo\Event\Scheduled::__construct
+     * @covers  Molajo\Event\Scheduled::get
+     * @covers  Molajo\Event\Scheduled::set
      *
      * @return void
      * @since   1.0
