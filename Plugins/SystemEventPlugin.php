@@ -9,7 +9,6 @@
 namespace Molajo\Plugins;
 
 use CommonApi\Event\SystemInterface;
-use CommonApi\Exception\RuntimeException;
 
 /**
  * System Event Plugin

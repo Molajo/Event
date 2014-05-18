@@ -9,7 +9,6 @@
 namespace Molajo\Plugins;
 
 use CommonApi\Event\DisplayInterface;
-use CommonApi\Exception\RuntimeException;
 
 /**
  * Display Abstract Class

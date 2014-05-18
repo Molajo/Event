@@ -83,9 +83,8 @@ abstract class AbstractPlugin
      *
      * @param   string $key
      * @param   string $value
-     * @param   string $property
      *
-     * @return  mixed
+     * @return  AbstractPlugin
      * @since   1.0
      */
     public function set($key, $value = null)

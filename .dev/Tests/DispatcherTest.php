@@ -10,8 +10,9 @@ namespace Molajo\Event;
 
 use CommonApi\Event\EventInterface;
 use CommonApi\Event\EventDispatcherInterface;
-use Molajo\Event\Scheduled;
 use Molajo\Event\Dispatcher;
+use Molajo\Event\EventDispatcher;
+use Molajo\Event\Scheduled;
 use PHPUnit_Framework_TestCase;
 
 /**
@@ -36,12 +37,14 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Event\Scheduled::get
      * @covers  Molajo\Event\Scheduled::set
      *
+     * @covers  Molajo\Event\EventDispatcher::triggerListeners
+     *
      * @return void
      * @since   1.0
      */
     public function testGet()
     {
-        $event_dispatcher = new MockEventDispatcher();
+        $event_dispatcher = new EventDispatcher();
 
         $x = function ($event_name, $data) {
             $instance = new ListenerA1 ($event_name, $data);
@@ -98,12 +101,14 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Event\Scheduled::get
      * @covers  Molajo\Event\Scheduled::set
      *
+     * @covers  Molajo\Event\EventDispatcher::triggerListeners
+     *
      * @return void
      * @since   1.0
      */
     public function testNoListeners()
     {
-        $event_dispatcher = new MockEventDispatcher();
+        $event_dispatcher = new EventDispatcher();
 
         $x = function ($event_name, $data) {
             $instance = new ListenerA1 ($event_name, $data);
@@ -157,30 +162,6 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         parent::tearDown();
-    }
-}
-
-class MockEventDispatcher implements EventDispatcherInterface
-{
-    public function triggerListeners(EventInterface $event, array $listeners = array())
-    {
-        $return_items = $event->get('return_items');
-        $data = $event->get('data');
-
-        foreach ($listeners as $listener) {
-
-            $data = $listener($event->get('event_name'), $event->get('data'));
-
-            $event->set('data', $data);
-        }
-
-        $new = array();
-
-        foreach ($return_items as $key) {
-            $new[$key] = $data[$key];
-        }
-
-        return $new;
     }
 }
 
