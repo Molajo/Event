@@ -39,17 +39,6 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase
     protected $event;
 
     /**
-     * Set up
-     *
-     * @return void
-     * @since   1.0
-     */
-    protected function setUp()
-    {
-
-    }
-
-    /**
      * Test Get Method
      *
      * @covers  Molajo\Event\Scheduled::get
@@ -91,17 +80,6 @@ class EventDispatcherTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(2, count($results));
 
         return;
-    }
-
-    /**
-     * Tear down
-     *
-     * @return void
-     * @since   1.0
-     */
-    protected function tearDown()
-    {
-        parent::tearDown();
     }
 }
 

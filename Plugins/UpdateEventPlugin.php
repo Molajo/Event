@@ -28,6 +28,7 @@ abstract class UpdateEventPlugin extends AbstractPlugin implements UpdateInterfa
      */
     public function onBeforeUpdate()
     {
+        return $this;
     }
 
     /**
@@ -38,5 +39,6 @@ abstract class UpdateEventPlugin extends AbstractPlugin implements UpdateInterfa
      */
     public function onAfterUpdate()
     {
+        return $this;
     }
 }
