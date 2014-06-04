@@ -35,8 +35,10 @@ class EventDispatcher implements EventDispatcherInterface
         $return_items = $event->get('return_items');
         $data         = $event->get('data');
 
-        foreach ($listeners as $listener) {
-            $data = $listener($event->get('event_name'), $data);
+        if (count($listeners) > 0) {
+            foreach ($listeners as $listener) {
+                $data = $listener($event->get('event_name'), $data);
+            }
         }
 
         $new = array();

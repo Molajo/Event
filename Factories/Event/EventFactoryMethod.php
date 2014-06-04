@@ -92,6 +92,9 @@ class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
             ('EventFactoryMethod: Event name not provided');
         }
 
+        $event_options_keys = $this->dependencies['Runtimedata']->event_options_keys;
+        $return_values = array();
+
         $resource                 = $this->dependencies['Resource'];
         $fieldhandler             = $this->dependencies['Fieldhandler'];
         $date_controller          = $this->dependencies['Date'];
@@ -117,10 +120,11 @@ class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
             $parameters = new stdClass();
         }
 
+        /** Only use from options -- which comes from the Controller */
         if (isset($this->options['query'])) {
             $query = $this->options['query'];
         } else {
-            $query = array();
+            $query = null;
         }
 
         if (isset($this->options['model_registry'])) {
@@ -168,6 +172,7 @@ class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
         $data['plugin_data']              = $plugin_data;
         $data['parameters']               = $parameters;
         $data['query']                    = $query;
+        $return_values = $this->setReturnValues($query, $event_options_keys, $return_values);
         $data['model_registry']           = $model_registry;
         $data['query_results']            = $query_results;
         $data['row']                      = $row;
@@ -177,7 +182,7 @@ class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
         try {
             $this->product_result = new $class(
                 $event_name,
-                $this->dependencies['Runtimedata']->event_options_keys,
+                $return_values,
                 $data
             );
 
@@ -187,5 +192,34 @@ class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
         }
 
         return $this;
+    }
+
+    /**
+     * Set Return Values
+     *
+     * @param   null|object $query
+     * @param   array       $event_options_keys
+     * @param   array       $return_values
+     *
+     * @return array
+     */
+    protected function setReturnValues(
+        $query = null,
+        array $event_options_keys = array(),
+        array $return_values = array()
+    )
+    {
+        if ($query === null) {
+            foreach ($event_options_keys as $item) {
+                if ($item === 'query') {
+                } else {
+                    $return_values[] = $item;
+                }
+            }
+        } else {
+            $return_values = $event_options_keys;
+        }
+
+        return $return_values;
     }
 }
