@@ -47,9 +47,9 @@ class DispatcherFactoryMethod extends FactoryMethodBase implements FactoryInterf
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    public function setDependencies(array $reflection = null)
+    public function setDependencies(array $reflection = array())
     {
-        parent::setDependencies();
+        parent::setDependencies(array());
 
         $this->dependencies = array();
 
@@ -68,16 +68,11 @@ class DispatcherFactoryMethod extends FactoryMethodBase implements FactoryInterf
         $class            = 'Molajo\\Event\\EventDispatcher';
         $event_dispatcher = new $class();
 
-        $callback_events = $this->readFile(
-            $this->options['base_path'] . '/Bootstrap/Files/Output/Events.json'
-        );
-
         $class = 'Molajo\\Event\\Dispatcher';
 
         try {
             $this->product_result = new $class(
-                $event_dispatcher,
-                $callback_events
+                $event_dispatcher
             );
 
         } catch (Exception $e) {
@@ -86,5 +81,25 @@ class DispatcherFactoryMethod extends FactoryMethodBase implements FactoryInterf
         }
 
         return $this;
+    }
+
+    /**
+     * Follows the completion of the instantiate method
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function onAfterInstantiation()
+    {
+        $events = $this->readFile(
+            $this->options['base_path'] . '/Bootstrap/Files/Output/Events.json'
+        );
+
+        foreach ($events as $event_name => $class_namespace_events) {
+
+            foreach ($class_namespace_events as $class_namespace) {
+                $this->product_result->registerForEvent($event_name, $class_namespace, 1);
+            }
+        }
     }
 }

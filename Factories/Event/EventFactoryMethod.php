@@ -47,9 +47,9 @@ class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    public function setDependencies(array $reflection = null)
+    public function setDependencies(array $reflection = array())
     {
-        parent::setDependencies(null);
+        parent::setDependencies(array());
 
         $this->dependencies = array();
 
@@ -57,10 +57,10 @@ class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
 
         $this->dependencies['Resource']      = $options;
         $this->dependencies['Fieldhandler']  = $options;
-        $this->dependencies['Date']          = array('if_exists' => true);
-        $this->dependencies['Url']           = array('if_exists' => true);
-        $this->dependencies['Language']      = array('if_exists' => true);
-        $this->dependencies['Authorisation'] = array('if_exists' => true);
+        $this->dependencies['Date']          = $options;
+        $this->dependencies['Url']           = $options;
+        $this->dependencies['Language']      = $options;
+        $this->dependencies['Authorisation'] = $options;
         $this->dependencies['rendered_page'] = $options;
 
         if (isset($this->options['runtime_data'])) {
@@ -89,11 +89,13 @@ class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
             $event_name = $this->options['event_name'];
         } else {
             throw new RuntimeException
-            ('EventFactoryMethod: Event name not provided');
+            (
+                'EventFactoryMethod: Event name not provided'
+            );
         }
 
         $event_options_keys = $this->dependencies['Runtimedata']->event_options_keys;
-        $return_values = array();
+        $return_values      = array();
 
         $resource                 = $this->dependencies['Resource'];
         $fieldhandler             = $this->dependencies['Fieldhandler'];
@@ -172,7 +174,9 @@ class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
         $data['plugin_data']              = $plugin_data;
         $data['parameters']               = $parameters;
         $data['query']                    = $query;
-        $return_values = $this->setReturnValues($query, $event_options_keys, $return_values);
+
+        $return_values                    = $this->setReturnValues($query, $event_options_keys, $return_values);
+
         $data['model_registry']           = $model_registry;
         $data['query_results']            = $query_results;
         $data['row']                      = $row;
@@ -188,7 +192,9 @@ class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
 
         } catch (Exception $e) {
             throw new RuntimeException
-            ('Event Factory: Could not instantiate Event Schedule: ' . $class);
+            (
+                'Event Factory: Could not instantiate Event Schedule: ' . $class
+            );
         }
 
         return $this;
@@ -207,8 +213,7 @@ class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
         $query = null,
         array $event_options_keys = array(),
         array $return_values = array()
-    )
-    {
+    ) {
         if ($query === null) {
             foreach ($event_options_keys as $item) {
                 if ($item === 'query') {

@@ -36,7 +36,7 @@ class Dispatcher implements DispatcherInterface
      * @var    array
      * @since  1.0
      */
-    protected $callback_events = array();
+    protected $class_namespace_events = array();
 
     /**
      * Class Constructor
@@ -64,7 +64,7 @@ class Dispatcher implements DispatcherInterface
     {
         $listeners = array();
 
-        if (isset($this->callback_events[$event_name])) {
+        if (isset($this->class_namespace_events[$event_name])) {
             $listeners = $this->sortEventListenersByPriority($event_name);
         }
 
@@ -81,13 +81,13 @@ class Dispatcher implements DispatcherInterface
      */
     public function sortEventListenersByPriority($event_name)
     {
-        $priorities = $this->callback_events[$event_name];
+        $priorities = $this->class_namespace_events[$event_name];
         krsort($priorities);
 
         $listeners = array();
-        foreach ($priorities as $priority => $callbacks) {
-            foreach ($callbacks as $callback) {
-                $listeners[] = $callback;
+        foreach ($priorities as $priority => $class_namespaces) {
+            foreach ($class_namespaces as $class_namespace) {
+                $listeners[] = $class_namespace;
             }
         }
 
@@ -97,30 +97,30 @@ class Dispatcher implements DispatcherInterface
     /**
      * Listener registers for an Event with the Dispatcher
      *
-     * @param   string   $event_name
-     * @param   callable $callback
-     * @param   int      $priority  1 is highest
+     * @param   string $event_name
+     * @param   string $class_namespace
+     * @param   int    $priority 1 is highest
      *
      * @return  $this
      * @since   1.0
      */
-    public function registerForEvent($event_name, $callback, $priority = 50)
+    public function registerForEvent($event_name, $class_namespace, $priority = 50)
     {
-        if (isset($this->callback_events[$event_name])) {
-            $priorities = $this->callback_events[$event_name];
+        if (isset($this->class_namespace_events[$event_name])) {
+            $priorities = $this->class_namespace_events[$event_name];
         } else {
             $priorities = array();
         }
 
         if (isset($priorities[$priority])) {
-            $callback_array = $priorities[$priority];
+            $class_namespace_array = $priorities[$priority];
         } else {
-            $callback_array = array();
+            $class_namespace_array = array();
         }
 
-        $callback_array[]                   = $callback;
-        $priorities[]                       = $callback_array;
-        $this->callback_events[$event_name] = $priorities;
+        $class_namespace_array[]                   = $class_namespace;
+        $priorities[$priority]                     = $class_namespace_array;
+        $this->class_namespace_events[$event_name] = $priorities;
 
         return $this;
     }
