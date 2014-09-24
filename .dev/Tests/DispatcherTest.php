@@ -77,8 +77,8 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
         $dispatcher->registerForEvent('onAfterDelete', $y, 2);
         $dispatcher->registerForEvent('onAfterDelete', $z, 1);
 
-        $return = array('a', 'e');
-        $data = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
+        $return         = array('a', 'e');
+        $data           = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
         $event_instance = new Scheduled('onBeforeRead', $return, $data);
 
         $results = $dispatcher->scheduleEvent('onBeforeRead', $event_instance);
@@ -89,6 +89,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 
         return;
     }
+
     /**
      * Test Get Method
      *
@@ -141,8 +142,8 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
         $dispatcher->registerForEvent('onAfterDelete', $y, 2);
         $dispatcher->registerForEvent('onAfterDelete', $z, 1);
 
-        $return = array('a', 'e');
-        $data = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
+        $return         = array('a', 'e');
+        $data           = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
         $event_instance = new Scheduled('onBeforeRead', $return, $data);
 
         $results = $dispatcher->scheduleEvent('NotAnEvent', $event_instance);

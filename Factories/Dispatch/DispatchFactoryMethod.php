@@ -1,12 +1,12 @@
 <?php
 /**
- * Event Dispatcher Factory Method
+ * Event Dispatch Factory Method
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\Factories\Dispatcher;
+namespace Molajo\Factories\Dispatch;
 
 use Exception;
 use CommonApi\Exception\RuntimeException;
@@ -15,14 +15,14 @@ use CommonApi\IoC\FactoryBatchInterface;
 use Molajo\IoC\FactoryMethod\Base as FactoryMethodBase;
 
 /**
- * Event Dispatcher Factory Method
+ * Event Dispatch Factory Method
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class DispatcherFactoryMethod extends FactoryMethodBase implements FactoryInterface, FactoryBatchInterface
+class DispatchFactoryMethod extends FactoryMethodBase implements FactoryInterface, FactoryBatchInterface
 {
     /**
      * Constructor
@@ -77,7 +77,9 @@ class DispatcherFactoryMethod extends FactoryMethodBase implements FactoryInterf
 
         } catch (Exception $e) {
             throw new RuntimeException
-            ('Render: Could not instantiate Handler: ' . $class);
+            (
+                'Render: Could not instantiate Handler: ' . $class
+            );
         }
 
         return $this;
@@ -92,7 +94,7 @@ class DispatcherFactoryMethod extends FactoryMethodBase implements FactoryInterf
     public function onAfterInstantiation()
     {
         $events = $this->readFile(
-            $this->options['base_path'] . '/Bootstrap/Files/Output/Events.json'
+            $this->base_path . '/Bootstrap/Files/Output/Events.json'
         );
 
         foreach ($events as $event_name => $class_namespace_events) {

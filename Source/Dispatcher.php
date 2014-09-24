@@ -55,12 +55,13 @@ class Dispatcher implements DispatcherInterface
      * Requester Schedules Event with Dispatcher
      *
      * @param   string         $event_name
-     * @param   EventInterface $event
+     * @param   EventInterface $event CommonApi\Event\EventInterface
+     * @param   callable       $debug_callback
      *
      * @return  $this
      * @since   1.0
      */
-    public function scheduleEvent($event_name, EventInterface $event)
+    public function scheduleEvent($event_name, EventInterface $event, callable $debug_callback = null)
     {
         $listeners = array();
 
@@ -68,7 +69,7 @@ class Dispatcher implements DispatcherInterface
             $listeners = $this->sortEventListenersByPriority($event_name);
         }
 
-        return $this->event_dispatcher->triggerListeners($event, $listeners);
+        return $this->event_dispatcher->triggerListeners($event, $listeners, $debug_callback);
     }
 
     /**

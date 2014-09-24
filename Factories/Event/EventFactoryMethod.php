@@ -26,6 +26,204 @@ use stdClass;
 class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, FactoryBatchInterface
 {
     /**
+     * Dependencies Array
+     *
+     * @var    array
+     * @since  1.0
+     */
+    protected $dependencies_array
+        = array(
+            'Resource'      => 'Resource',
+            'Fieldhandler'  => 'Fieldhandler',
+            'Date'          => 'Date',
+            'Url'           => 'Url',
+            'Language'      => 'Language',
+            'Authorisation' => 'Authorisation',
+            'rendered_page' => 'rendered_page',
+            'User'          => 'User',
+            'runtime_data'  => 'Runtimedata',
+            'plugin_data'   => 'Plugindata'
+        );
+
+    /**
+     * Additional Array
+     *
+     * @var    array
+     * @since  1.0
+     */
+    protected $additional_array
+        = array(
+            'exclude_tokens' => 'exclude_tokens',
+            'token_objects'  => 'token_objects',
+            'parameters'     => 'parameters',
+            'query'          => 'query',
+            'model_registry' => 'model_registry',
+            'query_results'  => 'query_results',
+            'row'            => 'row',
+            'rendered_view'  => 'rendered_view'
+        );
+
+    /**
+     * Plugin Name
+     *
+     * @var    string
+     * @since  1.0.0
+     */
+    protected $plugin_name = null;
+
+    /**
+     * Event Name
+     *
+     * @var    string
+     * @since  1.0.0
+     */
+    protected $event_name = null;
+
+    /**
+     * Resource
+     *
+     * @var    object
+     * @since  1.0.0
+     */
+    protected $resource = null;
+
+    /**
+     * Fieldhandler
+     *
+     * @var    object  CommonApi\Model\FieldhandlerInterface
+     * @since  1.0.0
+     */
+    protected $fieldhandler = null;
+
+    /**
+     * Date Controller
+     *
+     * @var    object  CommonApi\Controller\DateInterface
+     * @since  1.0.0
+     */
+    protected $date = null;
+
+    /**
+     * Url Controller
+     *
+     * @var    object  CommonApi\Controller\UrlInterface
+     * @since  1.0.0
+     */
+    protected $url = null;
+
+    /**
+     * Language Instance
+     *
+     * @var    object CommonApi\Language\LanguageInterface
+     * @since  1.0.0
+     */
+    protected $language = null;
+
+    /**
+     * Authorisation Controller
+     *
+     * @var    object  CommonApi\Authorisation\AuthorisationInterface
+     * @since  1.0.0
+     */
+    protected $authorisation = null;
+
+    /**
+     * Page Rendered Output
+     *
+     * @var    string
+     * @since  1.0.0
+     */
+    protected $rendered_page = null;
+
+    /**
+     * User
+     *
+     * @var    object  CommonApi\User\UserInterface
+     * @since  1.0.0
+     */
+    protected $user = null;
+
+    /**
+     * Runtime Data
+     *
+     * @var    object
+     * @since  1.0.0
+     */
+    protected $runtime_data = null;
+
+    /**
+     * Plugin Data
+     *
+     * @var    object
+     * @since  1.0.0
+     */
+    protected $plugin_data = null;
+
+    /**
+     * Exclude Tokens
+     *
+     * @var    array
+     * @since  1.0.0
+     */
+    protected $exclude_tokens = array();
+
+    /**
+     * Token Objects
+     *
+     * @var    array
+     * @since  1.0.0
+     */
+    protected $token_objects = array();
+
+    /**
+     * Parameters
+     *
+     * @var    object
+     * @since  1.0.0
+     */
+    protected $parameters = null;
+
+    /**
+     * Query
+     *
+     * @var    object
+     * @since  1.0.0
+     */
+    protected $query = null;
+
+    /**
+     * Model Registry
+     *
+     * @var    object
+     * @since  1.0.0
+     */
+    protected $model_registry = null;
+
+    /**
+     * Query Results
+     *
+     * @var    array
+     * @since  1.0.0
+     */
+    protected $query_results = array();
+
+    /**
+     * Query Results
+     *
+     * @var    object
+     * @since  1.0.0
+     */
+    protected $row = null;
+
+    /**
+     * View Rendered Output
+     *
+     * @var    string
+     * @since  1.0.0
+     */
+    protected $rendered_view = null;
+
+    /**
      * Constructor
      *
      * @param  array $options
@@ -52,26 +250,48 @@ class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
         parent::setDependencies(array());
 
         $this->dependencies = array();
+        $options            = array('if_exists' => true);
 
-        $options = array('if_exists' => true);
-
-        $this->dependencies['Resource']      = $options;
-        $this->dependencies['Fieldhandler']  = $options;
-        $this->dependencies['Date']          = $options;
-        $this->dependencies['Url']           = $options;
-        $this->dependencies['Language']      = $options;
-        $this->dependencies['Authorisation'] = $options;
-        $this->dependencies['rendered_page'] = $options;
-
-        if (isset($this->options['runtime_data'])) {
-        } else {
-            $this->dependencies['Runtimedata'] = $options;
+        foreach ($this->dependencies_array as $key => $value) {
+            if (isset($this->options[$key])) {
+            } else {
+                $this->dependencies[$value] = $options;
+            }
         }
 
-        if (isset($this->options['plugin_data'])) {
+        return $this->dependencies;
+    }
+
+    /**
+     * Set Dependencies for Instantiation
+     *
+     * @return  array
+     * @since   1.0
+     * @throws  \CommonApi\Exception\RuntimeException
+     */
+    public function onBeforeInstantiation(array $dependency_values = null)
+    {
+        parent::onBeforeInstantiation($dependency_values);
+
+        if (isset($this->options['event_name'])) {
+            $event_name = $this->options['event_name'];
         } else {
-            $this->dependencies['Plugindata'] = $options;
+            throw new RuntimeException(
+                'EventFactoryMethod: Event name not provided'
+            );
         }
+
+        $data = $this->setEventData();
+
+        $return_values = $this->setReturnValues(
+            $data['query'],
+            $data['runtime_data']->event_options_keys,
+            array()
+        );
+
+        $this->options['event_name']    = $event_name;
+        $this->options['return_values'] = $return_values;
+        $this->options['data']          = $data;
 
         return $this->dependencies;
     }
@@ -85,119 +305,134 @@ class EventFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
      */
     public function instantiateClass()
     {
-        if (isset($this->options['event_name'])) {
-            $event_name = $this->options['event_name'];
-        } else {
-            throw new RuntimeException
-            (
-                'EventFactoryMethod: Event name not provided'
-            );
-        }
-
-        $event_options_keys = $this->dependencies['Runtimedata']->event_options_keys;
-        $return_values      = array();
-
-        $resource                 = $this->dependencies['Resource'];
-        $fieldhandler             = $this->dependencies['Fieldhandler'];
-        $date_controller          = $this->dependencies['Date'];
-        $url_controller           = $this->dependencies['Url'];
-        $language_controller      = $this->dependencies['Language'];
-        $authorisation_controller = $this->dependencies['Authorisation'];
-
-        if (isset($this->options['runtime_data'])) {
-            $runtime_data = $this->options['runtime_data'];
-        } else {
-            $runtime_data = $this->dependencies['Runtimedata'];
-        }
-
-        if (isset($this->options['plugin_data'])) {
-            $plugin_data = $this->options['plugin_data'];
-        } else {
-            $plugin_data = $this->dependencies['Plugindata'];
-        }
-
-        if (isset($this->options['parameters'])) {
-            $parameters = $this->options['parameters'];
-        } else {
-            $parameters = new stdClass();
-        }
-
-        /** Only use from options -- which comes from the Controller */
-        if (isset($this->options['query'])) {
-            $query = $this->options['query'];
-        } else {
-            $query = null;
-        }
-
-        if (isset($this->options['model_registry'])) {
-            $model_registry = $this->options['model_registry'];
-        } else {
-            $model_registry = new stdClass();
-        }
-
-        if (isset($this->options['query_results'])) {
-            $query_results = $this->options['query_results'];
-        } else {
-            $query_results = array();
-        }
-
-        if (isset($this->options['row'])) {
-            $row = $this->options['row'];
-        } else {
-            $row = new stdClass();
-        }
-
-        if (isset($this->options['rendered_view'])) {
-            $rendered_view = $this->options['rendered_view'];
-        } else {
-            $rendered_view = '';
-        }
-
-        if (isset($this->options['rendered_page'])) {
-            $rendered_page = $this->options['rendered_page'];
-        } elseif (isset($this->dependencies['rendered_page'])) {
-            $rendered_page = $this->dependencies['rendered_page'];
-        } else {
-            $rendered_page = '';
-        }
-
         $class = $this->product_namespace;
-
-        $data                             = array();
-        $data['resource']                 = $resource;
-        $data['fieldhandler']             = $fieldhandler;
-        $data['date_controller']          = $date_controller;
-        $data['url_controller']           = $url_controller;
-        $data['language_controller']      = $language_controller;
-        $data['authorisation_controller'] = $authorisation_controller;
-        $data['runtime_data']             = $runtime_data;
-        $data['plugin_data']              = $plugin_data;
-        $data['parameters']               = $parameters;
-        $data['query']                    = $query;
-
-        $return_values                    = $this->setReturnValues($query, $event_options_keys, $return_values);
-
-        $data['model_registry']           = $model_registry;
-        $data['query_results']            = $query_results;
-        $data['row']                      = $row;
-        $data['rendered_view']            = $rendered_view;
-        $data['rendered_page']            = $rendered_page;
 
         try {
             $this->product_result = new $class(
-                $event_name,
-                $return_values,
-                $data
+                $this->options['event_name'],
+                $this->options['return_values'],
+                $this->options['data']
             );
 
         } catch (Exception $e) {
-            throw new RuntimeException
-            (
-                'Event Factory: Could not instantiate Event Schedule: ' . $class
+            throw new RuntimeException(
+                'Schedule Factory: Could not instantiate Event Scheduled: ' . $class
             );
         }
 
         return $this;
+    }
+
+    /**
+     * Set Data Array using Dependencies and Options Array
+     *
+     * @return  array
+     * @since   1.0
+     */
+    protected function setEventData()
+    {
+        $this->setClassProperties('dependencies_array');
+        $this->setClassProperties('additional_array');
+
+        $data = array();
+
+        $data = $this->initialiseDataArray('dependencies_array', $data);
+        $data = $this->initialiseDataArray('additional_array', $data);
+
+        $data = $this->setDataArray('dependencies_array', $data);
+        $data = $this->setDataArray('additional_array', $data);
+
+        return $data;
+    }
+
+    /**
+     * Set Class Properties using Dependencies and Options Array
+     *
+     * @param   array $property_array
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function setClassProperties($property_array)
+    {
+        foreach ($this->$property_array as $key => $value) {
+
+            $key = strtolower($key);
+
+            if (isset($this->dependencies[$value])) {
+                $this->$key = $this->dependencies[$value];
+
+            } elseif (isset($this->options[$key])) {
+                $this->$key = $this->options[$key];
+
+            } else {
+                $this->$key = $this->setNullClassProperty($key);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set Null Class Property
+     *
+     * @param   string $key
+     *
+     * @return  mixed
+     * @since   1.0
+     */
+    protected function setNullClassProperty($key)
+    {
+        $stdClass_array = array('row', 'parameters', 'model_registry');
+        $array          = array('query_results');
+        $value          = null;
+
+        if (in_array($key, $stdClass_array)) {
+            $value = new stdClass();
+
+        } elseif (in_array($key, $array)) {
+            $value = array();
+        }
+
+        return $value;
+    }
+
+    /**
+     * Initialise Data Array
+     *
+     * @param   array $property_array
+     * @param   array $data_array
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function initialiseDataArray($property_array, $data_array)
+    {
+        foreach ($this->$property_array as $key => $value) {
+            $key              = strtolower($key);
+            $data_array[$key] = null;
+        }
+
+        return $data_array;
+    }
+
+    /**
+     * Set Data Array using Dependencies and Options Array
+     *
+     * @param   array $property_array
+     * @param   array $data_array
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function setDataArray($property_array, $data_array)
+    {
+        foreach ($this->$property_array as $key => $value) {
+            $key              = strtolower($key);
+            $data_array[$key] = $this->$key;
+        }
+
+        return $data_array;
     }
 
     /**

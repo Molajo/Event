@@ -67,6 +67,7 @@ class Scheduled implements EventInterface
         array $return_items = array(),
         array $data = array()
     ) {
+//echo '<br><br><br><br> EVENT:: ' . $event_name . '<br>';
         $this->event_name   = $event_name;
         $this->return_items = $return_items;
         $this->data         = $data;
