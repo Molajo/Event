@@ -4,7 +4,7 @@
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  */
 namespace Molajo\Factories\Dispatch;
 
@@ -19,7 +19,7 @@ use Molajo\IoC\FactoryMethod\Base as FactoryMethodBase;
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
 class DispatchFactoryMethod extends FactoryMethodBase implements FactoryInterface, FactoryBatchInterface
@@ -44,7 +44,7 @@ class DispatchFactoryMethod extends FactoryMethodBase implements FactoryInterfac
      * Define dependencies or use dependencies automatically defined by base class using Reflection
      *
      * @return  array
-     * @since   1.0
+     * @since   1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
     public function setDependencies(array $reflection = array())
@@ -60,7 +60,7 @@ class DispatchFactoryMethod extends FactoryMethodBase implements FactoryInterfac
      * Instantiate Class
      *
      * @return  $this
-     * @since   1.0
+     * @since   1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
     public function instantiateClass()
@@ -76,8 +76,7 @@ class DispatchFactoryMethod extends FactoryMethodBase implements FactoryInterfac
             );
 
         } catch (Exception $e) {
-            throw new RuntimeException
-            (
+            throw new RuntimeException(
                 'Render: Could not instantiate Handler: ' . $class
             );
         }
@@ -89,7 +88,7 @@ class DispatchFactoryMethod extends FactoryMethodBase implements FactoryInterfac
      * Follows the completion of the instantiate method
      *
      * @return  $this
-     * @since   1.0
+     * @since   1.0.0
      */
     public function onAfterInstantiation()
     {

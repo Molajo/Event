@@ -375,8 +375,8 @@
         <line num="95" type="stmt" count="0"/>
         <metrics loc="96" ncloc="38" classes="1" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="23" coveredstatements="0" elements="26" coveredelements="0"/>
       </file>
-      <file name="/Users/amystephen/Sites/Molajo/Event/Plugins/AuthenticateEventPlugin.php">
-        <class name="AuthenticateEventPlugin" namespace="Molajo\Plugins">
+      <file name="/Users/amystephen/Sites/Molajo/Event/Plugins/UserEvent.php">
+        <class name="UserEvent" namespace="Molajo\Plugins">
           <metrics methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="0" elements="20" coveredelements="0"/>
         </class>
         <line num="29" type="method" name="onBeforeAuthenticate" crap="2" count="0"/>
@@ -397,8 +397,8 @@
         <line num="65" type="stmt" count="0"/>
         <metrics loc="66" ncloc="27" classes="1" methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="16" coveredstatements="0" elements="20" coveredelements="0"/>
       </file>
-      <file name="/Users/amystephen/Sites/Molajo/Event/Plugins/CreateEventPlugin.php">
-        <class name="CreateEventPlugin" namespace="Molajo\Plugins">
+      <file name="/Users/amystephen/Sites/Molajo/Event/Plugins/CreateEvent.php">
+        <class name="CreateEvent" namespace="Molajo\Plugins">
           <metrics methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="8" coveredstatements="0" elements="10" coveredelements="0"/>
         </class>
         <line num="29" type="method" name="onBeforeCreate" crap="2" count="0"/>
@@ -411,8 +411,8 @@
         <line num="43" type="stmt" count="0"/>
         <metrics loc="44" ncloc="17" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="8" coveredstatements="0" elements="10" coveredelements="0"/>
       </file>
-      <file name="/Users/amystephen/Sites/Molajo/Event/Plugins/DisplayEventPlugin.php">
-        <class name="DisplayEventPlugin" namespace="Molajo\Plugins">
+      <file name="/Users/amystephen/Sites/Molajo/Event/Plugins/DisplayEvent.php">
+        <class name="DisplayEvent" namespace="Molajo\Plugins">
           <metrics methods="9" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="36" coveredstatements="0" elements="45" coveredelements="0"/>
         </class>
         <line num="29" type="method" name="onBeforeRender" crap="2" count="0"/>
@@ -427,23 +427,23 @@
         <line num="54" type="stmt" count="0"/>
         <line num="55" type="stmt" count="0"/>
         <line num="56" type="stmt" count="0"/>
-        <line num="64" type="method" name="onBeforeRenderView" crap="2" count="0"/>
+        <line num="64" type="method" name="onBeforeRenderTemplate" crap="2" count="0"/>
         <line num="65" type="stmt" count="0"/>
         <line num="66" type="stmt" count="0"/>
         <line num="67" type="stmt" count="0"/>
-        <line num="75" type="method" name="onBeforeRenderViewHead" crap="2" count="0"/>
+        <line num="75" type="method" name="onBeforeRenderTemplateHead" crap="2" count="0"/>
         <line num="76" type="stmt" count="0"/>
         <line num="77" type="stmt" count="0"/>
         <line num="78" type="stmt" count="0"/>
-        <line num="86" type="method" name="onBeforeRenderViewItem" crap="2" count="0"/>
+        <line num="86" type="method" name="onBeforeRenderTemplateItem" crap="2" count="0"/>
         <line num="87" type="stmt" count="0"/>
         <line num="88" type="stmt" count="0"/>
         <line num="89" type="stmt" count="0"/>
-        <line num="97" type="method" name="onBeforeRenderViewFooter" crap="2" count="0"/>
+        <line num="97" type="method" name="onBeforeRenderTemplateFooter" crap="2" count="0"/>
         <line num="98" type="stmt" count="0"/>
         <line num="99" type="stmt" count="0"/>
         <line num="100" type="stmt" count="0"/>
-        <line num="108" type="method" name="onAfterRenderView" crap="2" count="0"/>
+        <line num="108" type="method" name="onAfterRenderTemplate" crap="2" count="0"/>
         <line num="109" type="stmt" count="0"/>
         <line num="110" type="stmt" count="0"/>
         <line num="111" type="stmt" count="0"/>
@@ -453,29 +453,29 @@
         <line num="122" type="stmt" count="0"/>
         <metrics loc="123" ncloc="52" classes="1" methods="9" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="36" coveredstatements="0" elements="45" coveredelements="0"/>
       </file>
-      <file name="/Users/amystephen/Sites/Molajo/Event/Plugins/ReadEventPlugin.php">
-        <class name="ReadEventPlugin" namespace="Molajo\Plugins">
+      <file name="/Users/amystephen/Sites/Molajo/Event/Plugins/ReadEvent.php">
+        <class name="ReadEvent" namespace="Molajo\Plugins">
           <metrics methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="0" elements="15" coveredelements="0"/>
         </class>
         <line num="29" type="method" name="onBeforeRead" crap="2" count="0"/>
         <line num="30" type="stmt" count="0"/>
         <line num="31" type="stmt" count="0"/>
         <line num="32" type="stmt" count="0"/>
-        <line num="40" type="method" name="onAfterRead" crap="2" count="0"/>
+        <line num="40" type="method" name="onAfterReadRow" crap="2" count="0"/>
         <line num="41" type="stmt" count="0"/>
         <line num="42" type="stmt" count="0"/>
         <line num="43" type="stmt" count="0"/>
-        <line num="51" type="method" name="onAfterReadall" crap="2" count="0"/>
+        <line num="51" type="method" name="onAfterRead" crap="2" count="0"/>
         <line num="52" type="stmt" count="0"/>
         <line num="53" type="stmt" count="0"/>
         <line num="54" type="stmt" count="0"/>
         <metrics loc="55" ncloc="22" classes="1" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="0" elements="15" coveredelements="0"/>
       </file>
-      <file name="/Users/amystephen/Sites/Molajo/Event/Plugins/SystemEventPlugin.php">
-        <class name="SystemEventPlugin" namespace="Molajo\Plugins">
+      <file name="/Users/amystephen/Sites/Molajo/Event/Plugins/SystemEvent.php">
+        <class name="SystemEvent" namespace="Molajo\Plugins">
           <metrics methods="11" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="44" coveredstatements="0" elements="55" coveredelements="0"/>
         </class>
-        <line num="29" type="method" name="onAfterInitialise" crap="2" count="0"/>
+        <line num="29" type="method" name="onAfterStart" crap="2" count="0"/>
         <line num="30" type="stmt" count="0"/>
         <line num="31" type="stmt" count="0"/>
         <line num="32" type="stmt" count="0"/>
@@ -487,11 +487,11 @@
         <line num="52" type="stmt" count="0"/>
         <line num="53" type="stmt" count="0"/>
         <line num="54" type="stmt" count="0"/>
-        <line num="62" type="method" name="onBeforeResource" crap="2" count="0"/>
+        <line num="62" type="method" name="onBeforeDispatcher" crap="2" count="0"/>
         <line num="63" type="stmt" count="0"/>
         <line num="64" type="stmt" count="0"/>
         <line num="65" type="stmt" count="0"/>
-        <line num="73" type="method" name="onAfterResource" crap="2" count="0"/>
+        <line num="73" type="method" name="onAfterDispatcher" crap="2" count="0"/>
         <line num="74" type="stmt" count="0"/>
         <line num="75" type="stmt" count="0"/>
         <line num="76" type="stmt" count="0"/>
@@ -521,8 +521,8 @@
         <line num="142" type="stmt" count="0"/>
         <metrics loc="143" ncloc="62" classes="1" methods="11" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="44" coveredstatements="0" elements="55" coveredelements="0"/>
       </file>
-      <file name="/Users/amystephen/Sites/Molajo/Event/Plugins/UpdateEventPlugin.php">
-        <class name="UpdateEventPlugin" namespace="Molajo\Plugins">
+      <file name="/Users/amystephen/Sites/Molajo/Event/Plugins/UpdateEvent.php">
+        <class name="UpdateEvent" namespace="Molajo\Plugins">
           <metrics methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="6" coveredstatements="0" elements="8" coveredelements="0"/>
         </class>
         <line num="29" type="method" name="onBeforeUpdate" crap="2" count="0"/>

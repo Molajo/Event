@@ -3,7 +3,7 @@
  * Dispatcher Test
  *
  * @package    Molajo
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
 namespace Molajo\Event;
@@ -19,7 +19,7 @@ use PHPUnit_Framework_TestCase;
  * Event Dispatcher
  *
  * @package    Molajo
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0.0
  */
@@ -40,7 +40,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Event\EventDispatcher::triggerListeners
      *
      * @return void
-     * @since   1.0
+     * @since   1.0.0
      */
     public function testGet()
     {
@@ -105,7 +105,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Event\EventDispatcher::triggerListeners
      *
      * @return void
-     * @since   1.0
+     * @since   1.0.0
      */
     public function testNoListeners()
     {
@@ -158,7 +158,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      * Tear down
      *
      * @return void
-     * @since   1.0
+     * @since   1.0.0
      */
     protected function tearDown()
     {
@@ -170,7 +170,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
  * Mock Listener Classes
  *
  * @package    Molajo
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0.0
  */

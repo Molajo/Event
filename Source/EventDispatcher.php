@@ -4,7 +4,7 @@
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  */
 namespace Molajo\Event;
 
@@ -16,10 +16,10 @@ use CommonApi\Event\EventDispatcherInterface;
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class EventDispatcher implements EventDispatcherInterface
+final class EventDispatcher implements EventDispatcherInterface
 {
     /**
      * Debug Log Callback
@@ -37,7 +37,7 @@ class EventDispatcher implements EventDispatcherInterface
      * @param   callable       $debug_callback
      *
      * @return  array
-     * @since   1.0
+     * @since   1.0.0
      */
     public function triggerListeners(
         EventInterface $event,
@@ -45,9 +45,10 @@ class EventDispatcher implements EventDispatcherInterface
         callable $debug_callback = null
     ) {
         $this->debug_callback = $debug_callback;
-        $return_items         = $event->get('return_items');
-        $data                 = $event->get('data');
-        $event_name           = $event->get('event_name');
+
+        $return_items = $event->get('return_items');
+        $data         = $event->get('data');
+        $event_name   = $event->get('event_name');
 
         if (count($listeners) > 0) {
             foreach ($listeners as $listener) {
@@ -56,6 +57,7 @@ class EventDispatcher implements EventDispatcherInterface
         }
 
         $new = array();
+
         foreach ($return_items as $key) {
             $new[$key] = $data[$key];
         }
@@ -72,24 +74,24 @@ class EventDispatcher implements EventDispatcherInterface
      * @param   array  $return_items
      *
      * @return  array
-     * @since   1.0
+     * @since   1.0.0
      */
     protected function triggerListener($listener, $event_name, $data, $return_items)
     {
         if (is_callable($listener)) {
-            return $this->triggerCallable($listener, $event_name, $data, $return_items);
+            return $this->triggerCallable($event_name, $listener, $data, $return_items);
         }
 
         $message = 'Class: ' . __CLASS__ . ' Method:' . __METHOD__ . ' Type: Event: ' . $event_name;
         $message .= ' Triggering: ' . $listener;
 
-        $this->setDebugMethodCall($message . ' Started', $event_name, $data);
+        $this->setDebugMethodCall($message . ' Started', $event_name, __FILE__, __LINE__, $data);
 
         $instance = $this->instantiateListener($listener, $event_name, $data);
 
         $data = $this->storeResults($data, $return_items, $instance);
 
-        $this->setDebugMethodCall($message . ' Finished', $event_name, $data);
+        $this->setDebugMethodCall($message . ' Finished', $event_name, __FILE__, __LINE__, $data);
 
         return $data;
     }
@@ -102,7 +104,7 @@ class EventDispatcher implements EventDispatcherInterface
      * @param   array  $data
      *
      * @return  array
-     * @since   1.0
+     * @since   1.0.0
      */
     protected function instantiateListener($listener, $event_name, $data)
     {
@@ -120,7 +122,7 @@ class EventDispatcher implements EventDispatcherInterface
      * @param   object $instance
      *
      * @return  array
-     * @since   1.0
+     * @since   1.0.0
      */
     protected function storeResults($data, $return_items, $instance)
     {
@@ -142,7 +144,7 @@ class EventDispatcher implements EventDispatcherInterface
      * @param   array    $return_items
      *
      * @return  array
-     * @since   1.0
+     * @since   1.0.0
      */
     protected function triggerCallable($listener, $event_name, $data, $return_items)
     {
@@ -152,14 +154,16 @@ class EventDispatcher implements EventDispatcherInterface
     /**
      * Set Debug Method Call
      *
-     * @param  string $message
-     * @param  string $debug_type
-     * @param  array  $context
+     * @param  string  $message
+     * @param  string  $debug_type
+     * @param  string  $file
+     * @param  integer $line
+     * @param  array   $context
      *
      * @return  $this
-     * @since   1.0
+     * @since   1.0.0
      */
-    protected function setDebugMethodCall($message, $debug_type, array $context = array())
+    protected function setDebugMethodCall($message, $debug_type, $file, $line, array $context = array())
     {
         if ($this->debug_callback === null) {
             return $this;
@@ -167,6 +171,6 @@ class EventDispatcher implements EventDispatcherInterface
 
         $debug_callback = $this->debug_callback;
 
-        return $debug_callback($message, $debug_type, $context);
+        return $debug_callback($message, $debug_type, $file, $line, $context);
     }
 }

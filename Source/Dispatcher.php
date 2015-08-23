@@ -4,7 +4,7 @@
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  */
 namespace Molajo\Event;
 
@@ -17,10 +17,10 @@ use CommonApi\Event\EventInterface;
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class Dispatcher implements DispatcherInterface
+final class Dispatcher implements DispatcherInterface
 {
     /**
      * Event Dispatcher
@@ -59,7 +59,7 @@ class Dispatcher implements DispatcherInterface
      * @param   callable       $debug_callback
      *
      * @return  $this
-     * @since   1.0
+     * @since   1.0.0
      */
     public function scheduleEvent($event_name, EventInterface $event, callable $debug_callback = null)
     {
@@ -78,7 +78,7 @@ class Dispatcher implements DispatcherInterface
      * @param   string $event_name
      *
      * @return  $this
-     * @since   1.0
+     * @since   1.0.0
      */
     public function sortEventListenersByPriority($event_name)
     {
@@ -103,7 +103,7 @@ class Dispatcher implements DispatcherInterface
      * @param   int    $priority 1 is highest
      *
      * @return  $this
-     * @since   1.0
+     * @since   1.0.0
      */
     public function registerForEvent($event_name, $class_namespace, $priority = 50)
     {

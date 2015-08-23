@@ -2,7 +2,11 @@
     "name": "molajo/event",
     "type": "molajo-package",
     "description": "Molajo Events: Dispatcher, Event Dispatcher and Event Package for PHP applications",
-    "keywords": ["Event", "Molajo", "CommonApi"],
+    "keywords": [
+        "Event",
+        "Molajo",
+        "CommonApi"
+    ],
     "homepage": "http://github.com/Molajo/Event",
     "license": "MIT",
     "authors": [

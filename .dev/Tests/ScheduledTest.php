@@ -3,7 +3,7 @@
  * Scheduled Event Test
  *
  * @package    Molajo
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
 namespace Molajo\Event\Tests;
@@ -15,7 +15,7 @@ use PHPUnit_Framework_TestCase;
  * Scheduled Event Test
  *
  * @package    Molajo
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0.0
  */
@@ -35,7 +35,7 @@ class ScheduledTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Event\Scheduled::__construct
      *
      * @return void
-     * @since   1.0
+     * @since   1.0.0
      */
     protected function setUp()
     {
@@ -53,7 +53,7 @@ class ScheduledTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Event\Scheduled::get
      *
      * @return  void
-     * @since   1.0
+     * @since   1.0.0
      */
     public function testGet()
     {
@@ -77,7 +77,7 @@ class ScheduledTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Event\Scheduled::get
      *
      * @return  void
-     * @since   1.0
+     * @since   1.0.0
      */
     public function testGetData()
     {
@@ -101,7 +101,7 @@ class ScheduledTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Event\Scheduled::set
      *
      * @return  void
-     * @since   1.0
+     * @since   1.0.0
      */
     public function testSet()
     {
@@ -125,7 +125,7 @@ class ScheduledTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Event\Scheduled::set
      *
      * @return  void
-     * @since   1.0
+     * @since   1.0.0
      */
     public function testSetData()
     {
